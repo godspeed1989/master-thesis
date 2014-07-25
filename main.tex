@@ -1,0 +1,111 @@
+%% ----------------------------------------------------------------------
+%% START OF FILE
+%% ----------------------------------------------------------------------
+%% 
+%% Filename: thesis-master.tex
+%% Author: Fred Qi
+%% Created: 2012-01-14 23:26:12(+0800)
+%% 
+%% ----------------------------------------------------------------------
+%%% CHANGE LOG
+%% ----------------------------------------------------------------------
+%% Last-Updated: 2014-04-19 21:11:53(+0400) [by Fred Qi]
+%%     Update #: 55
+%% ----------------------------------------------------------------------
+
+\documentclass[master,print]{xduthesis}
+% \usepackage{showframe}
+\usepackage{layout}
+\usepackage{listings}  % don't forget [fragile] option after \begin{frame}
+\lstset{language=C++, basicstyle=\ttfamily, numbers=none, xleftmargin=5pt, showstringspaces=false, frame=single} %keywordstyle=\color{red}
+
+%%%%%%%%%%%%%%%
+% 该文档的具体内容填写请参照‘thesis-master.tex’文档
+%%%%%%%%%%%%%%%
+
+\begin{document}
+%\layout{}
+%%%%%%%%%%%%%%%
+%% 论文前置部分
+%%%%%%%%%%%%%%%
+\frontmatter
+
+% 论文相关信息（封面）
+\subjectcode{10701}
+\studentid{1203121857}
+\catelognumber{TP391.41}
+\secretlevel{公开}
+
+\ctitle{一种SSD与HDD混合存储系统研究}
+\etitle{A Research of SSD and HDD Hybrid Storage System}
+
+\cauthor{闫林}
+\eauthor{Yan Lin}
+\csupervisor{刘凯~教授}
+\esupervisor{Prof. Liu Kai}
+
+\cfirstdiscipline{计算机科学与技术}
+\efirstdiscipline{Computer Science and Technology}
+\cseconddiscipline{计算机应用技术}
+\cdegreetype{工程硕士}
+\cdate{2014年9月}
+\edate{Sept 2014}
+
+% 中英文摘要声明
+\input{abstract}
+
+% 生成论文的封面、声明页、中英文摘要
+\makecover
+
+% 插图索引
+\listoffigures
+% 表格索引
+\listoftables
+% 其他列表
+\input{listothers}
+% 论文目录
+\tableofcontents
+
+%%%%%%%%%%%%%%%
+%% 论文正文
+%%%%%%%%%%%%%%%
+\mainmatter
+
+\input{ch01-introduction}
+\input{ch02-related_tech}
+\input{ch03-key_tech}
+\input{ch04-design_impl}
+%\input{ch05-experiment}
+%\input{ch06-conclusions}
+
+%%%%%%%%%%%%%%%
+%% 论文后置部分
+%%%%%%%%%%%%%%%
+\backmatter
+
+%% 插图索引
+% \listoffigures
+%% 表格索引
+% \listoftables
+
+% 参考文献
+%\bibliographystyle{IEEEtran}
+%\bibliography{IEEEabrv,refs}
+
+% 使用自定义参考文献样式，而非bibtex
+%\input{bibliography}
+
+% 附录，建议放在参考文献之后，致谢与成果部分之前
+% \begin{appendix}
+%   \input{appendix01}  
+% \end{appendix}
+
+%\input{acknowledgments}
+
+%\input{achievements}
+
+\end{document}
+
+%% ----------------------------------------------------------------------
+%%% END OF FILE 
+%% ----------------------------------------------------------------------

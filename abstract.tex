@@ -1,0 +1,44 @@
+%% ----------------------------------------------------------------------
+%% START OF FILE
+%% ----------------------------------------------------------------------
+
+\begin{cabstract}
+
+固态硬盘（SSD）作为一种新兴的存储介质，被应用到存储系统中。固态硬盘较传统硬盘有着许多优势。
+
+\end{cabstract}
+
+\begin{ckeywords}
+固态磁盘，混合存储，缓存
+\end{ckeywords}
+
+\begin{cthesistype}
+应用基础研究类（或基础研究类）
+\end{cthesistype}
+
+%% ----------------------------------------------------------------------
+
+\begin{eabstract}
+
+Solid State Disk (SSD), as a new technology, has been introduced into storage subsystem because of its many advantages, such as the compact size, low power consumption and especially the higher performance than Hard Disk Drive (HDD). But due to its relatively high price, currently SSD is mainly used as cache or used in some high-end storage subsystems. Actually, most of times, HDD and SSD exist in a system at the same time, and only used a part of the SSD. If user can use software to configure part of the unused SSD as storage, and another part of the unused SSD as a cache for the HDD, this will improve the IO performance of the whole system.
+
+Using SSD as a cache for HDD not only take performance advantage of SSD and save costs to replace all storage to SSD, but also ensure the storage system reliability. Using the data locality theory, the requested hot data on HDD will be moved to SSD,
+Performance : Store hot data on SDD while leaving cold data in disk
+
+Reliability: SSD is non-volatile compared with DRAM
+
+The system is implement as a Windows volume storage filter driver. Run in two mode: SSD as cache with write through and SSD as cache with write back. The results show the SSD cache can bring system with 10x read enhancement with wt and wb.
+
+\end{eabstract}
+
+\begin{ekeywords}
+SSD, Hybrid Storage, Cache
+\end{ekeywords}
+
+\begin{ethesistype}
+Applied Basic Research(or Basic Research)
+\end{ethesistype}
+
+%% ----------------------------------------------------------------------
+%%% END OF FILE 
+%% ----------------------------------------------------------------------

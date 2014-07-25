@@ -1,0 +1,176 @@
+%% ----------------------------------------------------------------------
+%% START OF FILE
+%% ----------------------------------------------------------------------
+
+\chapter{设计实现}
+\label{cha:mainmatter}
+
+\section{Cache算法通用接口}
+\label{sec:cache_interface}
+
+\subsection{数据结构}
+\begin{itemize}
+
+\item 缓存块（CACHE\_BLOCK）
+
+记录SSD缓存块和HDD存储块，最小的Cache存储单元。
+\begin{lstlisting}
+typedef struct _CACHE_BLOCK
+{
+    ULONGLONG Index;        //存储块索引，标记对应的HDD块
+    ULONGLONG StorageIndex; //Cache块索引，SSD数据块指针
+    BOOLEAN   Modified;     //更改标志
+}CACHE_BLOCK, *PCACHE_BLOCK;
+\end{lstlisting}
+
+\item 缓存池（CACHE\_POOL）
+\\Cache存储块池，用于组织存储块，记录Cache池的使用情况。
+\begin{lstlisting}
+typedef struct _CACHE_POOL
+{
+    ULONG        Size;       //Cache池总大小
+    ULONG        Used;       //Cache池已使用存储块数量
+    STORAGE_POOL Storage;    //存储池，管理底层存储介质访问
+    ULONG32      ReadCount;  //读计数
+    ULONG32      WriteCount; //写计数
+    ULONG32      ReadHit;    //读命中计数
+    ULONG32      WriteHit;   //写命中计数
+}CACHE_POOL, *PCACHE_POOL;
+\end{lstlisting}
+
+\end{itemize}
+
+\subsection{外部函数接口}
+\begin{itemize}
+
+\item InitCachePool
+\\初始化Cache存储块池。初始化成功返回TRUE，否则返回FALSE。
+\begin{lstlisting}
+bool InitCachePool (
+    PCACHE_POOL CachePool
+);
+\end{lstlisting}
+
+\item DestroyCachePool
+\\销毁Cache存储块池，释放存储空间。
+\begin{lstlisting}
+void DestroyCachePool (PCACHE_POOL CachePool);
+\end{lstlisting}
+
+\item QueryAndCopyFromCachePool
+\\查询Cache池中的数据是否命中以Offset开始，以长度为Length的HDD数据。如果完全命中，拷贝数据到Buffer，返回TRUE；如果不命中，返回FALSE。
+\begin{lstlisting}
+bool QueryAndCopyFromCachePool (
+    PCACHE_POOL CachePool,
+    PUCHAR Buf,
+    LONGLONG Offset,
+    ULONG Length
+);
+\end{lstlisting}
+
+\item QueryAndWriteToCachePool
+\\查询Cache池中的数据是否命中以Offset开始，以长度为Length的HDD数据。如果存在命中部分，使用Buf更新Cache池中的数据，返回TRUE；如果不命中，返回FALSE。
+\begin{lstlisting}
+bool QueryAndWriteToCachePool (
+    PCACHE_POOL CachePool,
+    PUCHAR Buf,
+    LONGLONG Offset,
+    ULONG Length
+);
+\end{lstlisting}
+
+\item ReadUpdataCachePool
+\\使用Cache替换算法，利用Buffer中的数据进行Cache池的更新。Buffer中的数据是偏移为Offset，长度为Length的HDD数据。
+\begin{lstlisting}
+void ReadUpdataCachePool (
+    PCACHE_POOL CachePool,
+    PUCHAR Buf,
+    LONGLONG Offset,
+    ULONG Length
+);
+\end{lstlisting}
+
+\item WriteUpdataCachePool
+\\使用Cache替换算法，利用Buffer中的数据进行Cache池的更新。Buffer中的数据是偏移为Offset，长度为Length的最新HDD数据。为保证数据的一致性，需要替换Cache中与最新数据（偏移为Offset，长度为Length）有重叠部分的数据。
+\begin{lstlisting}
+void WriteUpdataCachePool (
+    PCACHE_POOL CachePool,
+    PUCHAR Buf,
+    LONGLONG Offset,
+    ULONG Length
+);
+\end{lstlisting}
+
+\item IsEmpty
+\\判断Cache存储块池是否为空，如果为空返回TURE；否则返回FALSE。
+\begin{lstlisting}
+bool IsEmpty (PCACHE_POOL CachePool);
+\end{lstlisting}
+
+\item IsFull
+\\判断Cache存储块池是否已满，如果已满返回TURE；否则返回FALSE。
+\begin{lstlisting}
+bool IsFull (PCACHE_POOL CachePool);
+\end{lstlisting}
+
+\end{itemize}
+
+\subsection{内部函数接口}
+\begin{itemize}
+
+\item \_QueryPoolByIndex
+\\查询Cache存储块池中是否存在索引为Index的Cache块。如果存在，存放该Cache块的指针到ppBlock，返回TRUE；否则返回FALSE。
+\begin{lstlisting}
+bool _QueryPoolByIndex (
+    PCACHE_POOL CachePool,
+    LONGLONG Index,
+    PCACHE_BLOCK *ppBlock
+);
+\end{lstlisting}
+
+\item \_\_GetFreeBlock
+\\从Cache存储块池中获取一个未使用的Cache块，如果成功获取返回空闲块指针；否则返回NULL。
+\begin{lstlisting}
+PCACHE_BLOCK __GetFreeBlock (PCACHE_POOL CachePool);
+\end{lstlisting}
+
+\item \_AddNewBlockToPool
+\\当Cache块存储池存在空间时，加入索引为Index，数据为Data的Cache块。Modified标记传入的数据是读类型还是写类型。如果成功获取返回新创建的Cache块指针；否则返回NULL。
+\begin{lstlisting}
+PCACHE_BLOCK _AddNewBlockToPool (
+    PCACHE_POOL CachePool,
+    LONGLONG Index,
+    PVOID Data,
+    BOOLEAN Modified
+);
+\end{lstlisting}
+
+\item \_FindBlockToReplace
+\\当Cache块存储池为满时，利用Cache算法的页面替换策略从Cache池中选取出一个Cache块进行替换。Modified标记传入的数据是读类型还是写类型。如果成功获取返回数据被替换的Cache块指针；否则返回NULL。
+\begin{lstlisting}
+PCACHE_BLOCK _FindBlockToReplace (
+    PCACHE_POOL CachePool,
+    LONGLONG Index,
+    PVOID Data,
+    BOOLEAN Modified
+);
+\end{lstlisting}
+
+\item \_IncreaseBlockReference
+\\增加Cache块pBlock的引用计数。当某个Cache块被访问时（读/写），告知Cache算法其访问计数被增加。
+\begin{lstlisting}
+VOID _IncreaseBlockReference (
+    PCACHE_POOL CachePool,
+    PCACHE_BLOCK pBlock
+);
+\end{lstlisting}
+
+\end{itemize}
+
+\section{缓存系统内部函数实现逻辑}
+\label{sec:cache_internal}
+
+
+%% ----------------------------------------------------------------------
+%%% END OF FILE 
+%% ----------------------------------------------------------------------
