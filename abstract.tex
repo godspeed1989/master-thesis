@@ -4,12 +4,16 @@
 
 \begin{cabstract}
 
-固态硬盘（SSD）作为一种新兴的存储介质，被应用到存储系统中。固态硬盘较传统硬盘有着许多优势。
+固态硬盘（SSD）作为一种出现相对较晚的存储介质，已经逐渐被部署到数据存储中心。相比于机械硬盘（HDD），固态硬盘有着体积小、功耗低以及访问速度快的优势。但是，固态硬盘的高昂价格使其大多数情况下只出现在高端存储系统。大部分情况下，固态硬盘和机械硬盘是被同时部署的，且只有部分的SSD存储空间被用作存储。如果能够充分利用未使用的固态硬盘空间作为机械硬盘的缓冲区，系统IO性能将会有明显的提升。
+
+本论文提出了一种HDD-SSD混合存储解决方案：使用固态硬盘的存储空间为机械硬盘做缓存，用户可指定某个固态硬盘卷用作缓存空间以及某个机械硬盘被缓存。基于数据局部性原理的缓存算法会在冷数据保持不变的前提下，将访问频繁的热数据逐渐由机械硬盘复制到固态硬盘。LRU、LFU以及一种论文提出的新的缓存页面替换算法将会被使用。最终实现的Windows存储卷过滤器驱动程序还会提供两种运行模式供用户选择：写穿模式和写回模式。
+
+该解决方案不仅充分利用了固态硬盘的性能，同时避免了存储系统由全机械硬盘向全固态硬盘迁移所带来的高昂开销。经测试，由固态硬盘缓存的机械硬盘会有2~3倍的IO性能提升。
 
 \end{cabstract}
 
 \begin{ckeywords}
-固态磁盘，混合存储，缓存
+固态磁盘，机械硬盘，混合存储，缓存，数据局部性原理
 \end{ckeywords}
 
 \begin{cthesistype}
@@ -20,19 +24,16 @@
 
 \begin{eabstract}
 
-Solid State Disk (SSD), as a new technology, has been introduced into storage subsystem because of its many advantages, such as the compact size, low power consumption and especially the higher performance than Hard Disk Drive (HDD). But due to its relatively high price, currently SSD is mainly used as cache or used in some high-end storage subsystems. Actually, most of times, HDD and SSD exist in a system at the same time, and only used a part of the SSD. If user can use software to configure part of the unused SSD as storage, and another part of the unused SSD as a cache for the HDD, this will improve the IO performance of the whole system.
+Solid State Disk (SSD), as a new storage device, has been introduced into data center because of its many advantages, such as compact size, low power consumption and high performance compared with Hard Disk Drive (HDD). But due to its relatively high price and low storage density, currently, SSD is mainly used in some high-end storage subsystems. Actually, most of times, HDD and SSD exist in a system at the same time, and only a part of SSD's space is used. The IO performance of the storage system will be improved, if a software can configure part of the SSD as common storage while leaving unused part of SSD as a cache for HDD.
 
-Using SSD as a cache for HDD not only take performance advantage of SSD and save costs to replace all storage to SSD, but also ensure the storage system reliability. Using the data locality theory, the requested hot data on HDD will be moved to SSD,
-Performance : Store hot data on SDD while leaving cold data in disk
+This paper proposes a HDD-SSD hybrid storage solution using SSD as a cache for HDD. User can specify a SSD volume as cache's storage and a HDD volume as a cached device. Algorithm depending on data locality theory, the frequently accessed hot data on HDD will be copied to SSD, while keeping cold data on HDD. LRU, LFU and a new proposed cache page replacement algorithm are implemented to distinguish hot and cold data.
 
-Reliability: SSD is non-volatile compared with DRAM
-
-The system is implement as a Windows volume storage filter driver. Run in two mode: SSD as cache with write through and SSD as cache with write back. The results show the SSD cache can bring system with 10x read enhancement with wt and wb.
+Software is implemented as a Windows volume storage filter driver which run in two modes: SSD as cache with write through strategy and SSD as cache with write back strategy. The solution not only take performance advantage of SSD but also avoid costs to transfer all storage from HDD to SSD. With SSD cache, the I/O performance of HDD result shows a 2-3x enhancement.
 
 \end{eabstract}
 
 \begin{ekeywords}
-SSD, Hybrid Storage, Cache
+SSD, HDD, Hybrid Storage, Cache, Data Locality
 \end{ekeywords}
 
 \begin{ethesistype}
