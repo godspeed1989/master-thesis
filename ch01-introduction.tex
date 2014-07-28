@@ -8,18 +8,18 @@
 \section{研究背景}
 \label{sec:background}
 
-日新月异的计算机技术发展，带来了数据存储设备容量和CPU处理能力的大幅度提升。然而，磁盘系统的数据带宽以及I/O吞吐率的增长速度并未跟他们的上步伐。与之而来的是CPU和传统磁盘系统的间愈发加大的速度差距（图\ref{fig:cpu_disk_diff}）。
+日新月异的计算机技术发展，带来了数据存储设备容量和CPU处理能力的大幅度提升。然而，磁盘系统的数据带宽以及I/O吞吐率的增长速度并未跟他们的上步伐。与之而来的是CPU和传统磁盘系统的间愈发加大的速度差距（图\ref{fig:cpu-disk-diff}）。
 
-\begin{figure}[h]\label{fig:cpu_disk_diff}
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.7\linewidth]{./graph/cpu-disk-gap}
 \caption{CPU与磁盘速度差异}
-\label{fig:cpu_disk_diff}
+\label{fig:cpu-disk-diff}
 \end{figure}
 
 云端计算是继计算机系统从二十世纪80年代的大型计算机到“客户端-服务器”模式的又一次转变。与之而来的是对存储设备厂商对大数据（Big Data）越来越多的关注。大数据之所以会出现，是因为我们生活在一个拥有海量数据的信息社会中，21世纪人们与数据或信息交互比历史上的任何时期都要活跃。46亿全球移动电话用户中，有20亿人访问互联网，人们在畅游互联网的过程中，会自觉或不自觉的产生日志、访问历史和评论等信息，互联网上流动的交通量已经达到每年667艾字节。除了互联网，数据已经渗透到每一个行业和业务职能领域，并逐渐成为重要的生产因素。2011年5月全球知名咨询公司麦肯锡全球研究院发布了一份题为《大数据：创新、竞争和生产力的下一个新领域》的报告，报告指出了人们对于大数据的运用预示着新一波生产率增长和消费者盈余浪潮的到来。
 
-大数据对存储系统的容量、速度及可靠性提出了非常高的要求，一些高性能的存储设备由此产生。固态硬盘（SSD）作为其中的佼佼者被引入传统的以机械硬盘（HDD）为主的存储系统。SSD 的读写性能远远高于传统的机械硬盘（表\ref{tab:ssd_speed_compare}），将SSD 引入存储系统中，将大大提高系统的性能。
+大数据对存储系统的容量、速度及可靠性提出了非常高的要求，一些高性能的存储设备由此产生。固态硬盘（SSD）作为其中的佼佼者被引入传统的以机械硬盘（HDD）为主的存储系统。SSD 的读写性能远远高于传统的机械硬盘（表\ref{tab:ssd-speed-compare}），将SSD 引入存储系统中，将大大提高系统的性能。
 
 \begin{table}[h]
 \centering
@@ -30,7 +30,7 @@
 \hline 
 \end{tabular} 
 \caption{SSD速度比较}
-\label{tab:ssd_speed_compare}
+\label{tab:ssd-speed-compare}
 \end{table}
 
 然而SSD的价格仍然昂贵，虽然过去几年SSD的价格一直快速下降，但下跌趋势正日益放缓，一系列问题导致SSD和HDD之间的价格差距不可能会很快消失。因此，SSD不会在短时间内取代HDD成为企业的主储存设备。SSD的价格从2005年和2006年的3美元/GB跌至了2012年的0.67美元/GB，但与HDD的0.09美元/GB相比仍然相去甚远。根据SSD价格的历史下降速度计算，到2020年它的价格约为0.15美元/GB，而届时HDD的价格将会降至0.03美元/GB，对存储厂商来说HDD仍然存在难以抗拒的价格优势。
@@ -40,7 +40,7 @@
 \section{相关研究工作}
 \label{sec:related_works}
 
-针对SSD价格高、容量小、功耗低等特点，很多公司和研究者针对SSD 的使用场景，提出了基于SSD的混合或分级存储解决方案。这些方案与全SSD解决方案相比价格更能被接受。同时，相比于传统的使用DRAM作为缓冲区，基于NAND或NOR的SSD有着功耗低（表\ref{tab:ssd_power_compare}）、存储密度高以及可扩展性强的优势。
+针对SSD价格高、容量小、功耗低等特点，很多公司和研究者针对SSD 的使用场景，提出了基于SSD的混合或分级存储解决方案。这些方案与全SSD解决方案相比价格更能被接受。同时，相比于传统的使用DRAM作为缓冲区，基于NAND或NOR的SSD有着功耗低（表\ref{tab:ssd-power-compare}）、存储密度高以及可扩展性强的优势。
 
 \begin{table}[h]
 \centering
@@ -53,7 +53,7 @@
 \end{tabular}
 \\ * Power consumed for 1Gbit of memory
 \caption{SSD功耗比较}
-\label{tab:ssd_power_compare}
+\label{tab:ssd-power-compare}
 \end{table}
 
 全球第六大企业软件公司EMC在2012年推出了VFCache解决方案。VFCache通过拦截不超过64KB大小的I/O请求（通常为随机操作）并将其缓存到PCIe闪存卡，从而达到加速访问的效果。由于不缓存应用程序的写操作，而是直接通过FCHBA卡写入后端SAN存储并等待其反馈成功信息，因此VFCache即便出现硬件故障也不会导致数据丢失。通过将SSD引进存储阵列，EMC成为第一家涉足服务器PCIe闪存市场的主流厂商。

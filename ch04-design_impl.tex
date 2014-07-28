@@ -5,7 +5,7 @@
 \chapter{设计实现}
 \label{cha:mainmatter}
 
-\section{Cache算法通用接口}
+\section{缓存算法通用接口}
 \label{sec:cache_interface}
 
 \subsection{数据结构}
@@ -167,9 +167,123 @@ VOID _IncreaseBlockReference (
 
 \end{itemize}
 
-\section{缓存系统内部函数实现逻辑}
-\label{sec:cache_internal}
+%% ----------------------------------------------------------------------
 
+\section{IO捕获函数逻辑}
+\label{sec:capture_io_logic}
+
+\begin{enumerate}
+
+\item 默认分发函数
+
+默认分发函数图\ref{fig:df-default}。
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.2\linewidth]{./graph/df-default}
+\caption{默认分发函数}
+\label{fig:df-default}
+\end{figure}
+
+\item 电源事件分发函数
+
+电源事件分发函数图\ref{fig:df-power}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.3\linewidth]{./graph/df-power}
+\caption{电源事件分发函数}
+\label{fig:df-power}
+\end{figure}
+
+\item IOCTL分发函数
+
+IOCTL分发函数图\ref{fig:df-ioctl}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.3\linewidth]{./graph/df-ioctl}
+\caption{IOCTL分发函数}
+\label{fig:df-ioctl}
+\end{figure}
+
+\item PnP事件分发函数
+
+PnP事件分发函数图\ref{fig:df-pnp}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\linewidth]{./graph/df-pnp}
+\caption{PnP事件分发函数}
+\label{fig:df-pnp}
+\end{figure}
+
+\item 读写分发函数
+
+读写分发函数图\ref{fig:df-rw}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.2\linewidth]{./graph/df-rw}
+\caption{读写分发函数}
+\label{fig:df-rw}
+\end{figure}
+
+\end{enumerate}
+
+%% ----------------------------------------------------------------------
+
+\section{用户配置工具}
+\label{sec:config_utility}
+
+系统提供了命令行的用户配置工具，在用户层和内核层的驱动程序进行交互。通过驱动设备对象提供的IOCTL命令，来完成两个方面的功能：
+\begin{enumerate}
+\item 配置缓存系统的运行状态。包括启动、停止和设置作为缓存的卷。
+\item 获得缓存系统的统计数据。获得IO统计信息，如读写次数和命中率。
+\end{enumerate}
+
+配置工具启动后，依据用户输入的命令完成相应操作。工具提供如下几种种命令：
+
+\begin{itemize}
+\item start
+\\描述：为某个指定的HDD存储卷开启SSD缓存。
+\\使用：start  [disk\_number]  [volume\_number]
+\\IOCTL：IOCTL\_DF\_START
+
+\item stop
+\\描述：停止某个HDD存储卷上的SSD缓存。
+\\使用：stop  [disk\_number]  [volume\_number]
+\\IOCTL：IOCTL\_DF\_STOP
+
+\item stat
+\\描述：获取某个存储卷的统计数据。包括读、写操作次数，缓存命中率以及使用情况。
+\\使用：stat  [disk\_number]  [volume\_number]
+\\IOCTL：IOCTL\_DF\_GET\_STAT
+
+\item clear
+\\描述：清除某个存储卷的统计数据。
+\\使用：clear  [disk\_number]  [volume\_number]
+\\IOCTL：IOCTL\_DF\_CLEAR\_STAT
+
+\item quite
+\\描述：设置驱动程序不向内核日志输出任何日志信息。
+\\使用：quite
+\\IOCTL：IOCTL\_DF\_QUIET
+
+\item verbose
+\\描述：开启驱动程序的向内核日志的所有日志信息输出。
+\\使用：verbose
+\\IOCTL：IOCTL\_DF\_VERBOSE
+
+\item verify
+\\描述：开启或关闭SSD缓存池内数据和HDD数据的一致性验证，默认是关闭的，开启对性能影响明显，只做调试使用。
+\\使用：verify
+\\IOCTL：IOCTL\_DF\_VERIFY
+
+\item q
+\\描述：退出用户配置工具。
+\\使用：q
+\end{itemize}
 
 %% ----------------------------------------------------------------------
 %%% END OF FILE 

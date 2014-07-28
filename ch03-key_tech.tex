@@ -29,39 +29,39 @@ LFU算法需要为每个缓存块设置一个计数器，记录访问次数。�
 在决定被替换的缓存块时，只考虑最后一次的访问时间或使用频度都会存在特定的缺陷。论文提出了一种综合考虑访问时间或使用频度的替换算法，经测试，优于LRU和LFU系列算法。
 \begin{itemize}
 \item
-使用冷、热两个链表管理缓存块（图\ref{fig:replace_algo_1}），初始状态下两个链表均为空。两个链表所能管理的空间之和代表了混存的总容量。
+使用冷、热两个链表管理缓存块（图\ref{fig:replace-algo-1}），初始状态下两个链表均为空。两个链表所能管理的空间之和代表了混存的总容量。
 \begin{figure}
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/replace-algo-1}
 \caption{replace-algo-1}
-\label{fig:replace_algo_1}
+\label{fig:replace-algo-1}
 \end{figure}
 
 \item
-新到来的缓存块首先会被加入到冷链表的热端，在运行过程中会统计其访问的次数。图\ref{fig:replace_algo_2}展示了缓存块以A->B->C->D->E的字母表顺序加入后的缓存状态。
+新到来的缓存块首先会被加入到冷链表的热端，在运行过程中会统计其访问的次数。图\ref{fig:replace-algo-2}展示了缓存块以A->B->C->D->E的字母表顺序加入后的缓存状态。
 \begin{figure}
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/replace-algo-2}
 \caption{replace-algo-2}
-\label{fig:replace_algo_2}
+\label{fig:replace-algo-2}
 \end{figure}
 
 \item
-随着系统运行，缓存块会被不断加入。当冷链已满，而又需要加入新的缓存块时。新的缓存块仍旧会被加入到冷链的热端，冷端则需要移出一个缓存块到临时空间。算法会判断移出缓存块的引用计数，如果其引用计数大于等于2，则加入到热链表的热端，并清零其引用计数；否则空间将会被释放。图\ref{fig:replace_algo_3}展示了加入块G移出块A的过程。
+随着系统运行，缓存块会被不断加入。当冷链已满，而又需要加入新的缓存块时。新的缓存块仍旧会被加入到冷链的热端，冷端则需要移出一个缓存块到临时空间。算法会判断移出缓存块的引用计数，如果其引用计数大于等于2，则加入到热链表的热端，并清零其引用计数；否则空间将会被释放。图\ref{fig:replace-algo-3}展示了加入块G移出块A的过程。
 \begin{figure}
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/replace-algo-3}
 \caption{replace-algo-3}
-\label{fig:replace_algo_3}
+\label{fig:replace-algo-3}
 \end{figure}
 
 \item
-新缓存块的到来导致冷链表中的缓存块不断被移动到热链表，热链表也会逐渐变满。继续从冷链表向热链表移动缓存块会导致热链表的冷端的缓存块像图\ref{fig:replace_algo_3}中冷链表的冷端的缓存块一样被换出。这些被换出的缓存块的引用计数被清零后会被加入到冷链的热端，重复图\ref{fig:replace_algo_3}的过程。这一过程在图\ref{fig:replace_algo_4}中被描述。
+新缓存块的到来导致冷链表中的缓存块不断被移动到热链表，热链表也会逐渐变满。继续从冷链表向热链表移动缓存块会导致热链表的冷端的缓存块像图\ref{fig:replace-algo-3}中冷链表的冷端的缓存块一样被换出。这些被换出的缓存块的引用计数被清零后会被加入到冷链的热端，重复图\ref{fig:replace-algo-3}的过程。这一过程在图\ref{fig:replace-algo-4}中被描述。
 \begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{./graph/replace-algo-4}
 \caption{replace-algo-4}
-\label{fig:replace_algo_4}
+\label{fig:replace-algo-4}
 \end{figure}
 \end{itemize}
 
@@ -75,13 +75,13 @@ LFU算法需要为每个缓存块设置一个计数器，记录访问次数。�
 \begin{enumerate}
 
 \item 直接相联映射
-\\主存储器中的每一块映射到缓存中的某个特定存储块中。缓存中的每个缓存块与主存中的一个或多个存储块相关联（图\ref{fig:cache_map_1}）。
+\\主存储器中的每一块映射到缓存中的某个特定存储块中。缓存中的每个缓存块与主存中的一个或多个存储块相关联（图\ref{fig:cache-map-1}）。
 
 \begin{figure}
 \centering
 \includegraphics[width=0.3\linewidth]{./graph/cache-map-1}
 \caption{直接相联映射}
-\label{fig:cache_map_1}
+\label{fig:cache-map-1}
 \end{figure}
 
 映射规则：
@@ -95,13 +95,13 @@ j = i mod m	（m为主存每一区的总块数）
 直接映射方式的优点是实现简单，可以使用主存地址直接计算出对应的缓存地址，不存在查找过程。缺点是缓存中的每个存储块通常对应主存中多个固定的存储块，运行中如果存在多个块同时被访问会产生缓存替换策略被频繁调用的情况。因此，直接映射适合混存容量为主存的30\%以上时采用，一般应用于超大型系统。
 
 \item 全相联映射
-\\主存储器中的任意一块可以映射到缓存中的任意一块（图\ref{fig:cache_map_2}）。
+\\主存储器中的任意一块可以映射到缓存中的任意一块（图\ref{fig:cache-map-2}）。
 
 \begin{figure}
 \centering
 \includegraphics[width=0.3\linewidth]{./graph/cache-map-2}
 \caption{全相联映射}
-\label{fig:cache_map_2}
+\label{fig:cache-map-2}
 \end{figure}
 
 映射规则：
@@ -113,13 +113,13 @@ j = i mod m	（m为主存每一区的总块数）
 全相联映射的优点是主存和缓存的容量没有限制，只需按照相同大小的数据块进行组织。缺点是当查询主存中的某个数据块是否被缓存时，在不使用额外存储空间的情况下要遍历所有缓存块进行查找。为提高查找效率，可使用多种查找数据结构进行索引，但需要额外的存储空间。
 
 \item 组相联映射
-\\主储存器的每一组都与缓存中的某一组相对应，组内的每个块与缓存组内的任意一个存储块相映射（图\ref{fig:cache_map_3}）。
+\\主储存器的每一组都与缓存中的某一组相对应，组内的每个块与缓存组内的任意一个存储块相映射（图\ref{fig:cache-map-3}）。
 
 \begin{figure}
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/cache-map-3}
 \caption{组相联映射}
-\label{fig:cache_map_3}
+\label{fig:cache-map-3}
 \end{figure}
 
 映射规则：
@@ -149,7 +149,7 @@ j = i mod m	（m为主存每一区的总块数）
 
 对于应用程序的读请求，HDD上的数据不会被改变，因此不存在数据一致性的问题。对于应用程序的写请求，需要决定是直接应用写操作到HDD还是延迟写。学术上存在三种回写策略：写穿法、写回法和写一次法。本系统实现了前两套处理方案。
 
-\subsection{写穿法}
+\subsection{写穿法（Write Through）}
 \begin{figure}
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/write-through}
@@ -159,7 +159,7 @@ j = i mod m	（m为主存每一区的总块数）
 
 对于写请求，同时应用于HDD和SSD缓存。由于HDD和缓存是同时写入的，因此无需考虑数据一致性问题，也无需为每个缓存块设置标志位标记反映此块是否被修改过（图\ref{fig:write-through}）。
 
-\subsection{写回法}
+\subsection{写回法（Write Back）}
 \begin{figure}
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/write-back}
@@ -176,7 +176,7 @@ j = i mod m	（m为主存每一区的总块数）
 \label{fig:write-back-queue}
 \end{figure}
 
-回写队列的大小是固定。随着脏数据块的加入，当回写队列满时，会触发回写线程进行回写操作。会写线程会将队列中的所有脏缓存块刷回HDD。同样的，当线程接收到回写所有或线程终止信号时，也会进行刷回所有脏缓存到HDD的操作（图\ref{fig:write-back-thread}）。
+回写队列的大小是固定。随着脏数据块的加入，当回写队列满时，会触发回写线程进行回写操作。会写线程会将队列中的所有脏缓存块刷回HDD。同样的，当线程接收到回写所有或线程终止信号时，也会进行刷回所有脏缓存块到HDD的操作（图\ref{fig:write-back-thread}）。
 
 \begin{figure}
 \centering
