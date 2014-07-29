@@ -169,14 +169,17 @@ VOID _IncreaseBlockReference (
 
 %% ----------------------------------------------------------------------
 
-\section{IO捕获函数逻辑}
+\section{IO操作捕获函数逻辑}
 \label{sec:capture_io_logic}
+
+驱动程序通过重载卷过滤器驱动程序的分发函数达到捕获应用程序IO操作的目的。
 
 \begin{enumerate}
 
 \item 默认分发函数
 
-默认分发函数图\ref{fig:df-default}。
+默认分发函数用于实现我们不需要使用的分发函数接口。对于本驱动不关心的IRP，仍需传递给底层的驱动程序才能保证程序的正常运行。
+一个驱动程序可以为每个分发函数接口实现一个独立的分发函数。同样的，也可以用一个分发函数实现多种分发函数接口。默认分发函数就是一种被用来实现多种分发函数接口的函数。该函数直接跳过IO栈上当前驱动设备对象所处的位置，将IRP发送给更底层的驱动设备对象（图\ref{fig:df-default}）。
 
 \begin{figure}[h]
 \centering
@@ -187,7 +190,9 @@ VOID _IncreaseBlockReference (
 
 \item 电源事件分发函数
 
-电源事件分发函数图\ref{fig:df-power}
+电源事件分发函数实现了IRP\_MJ\_POWER分发函数接口。电源事件IRP包含了操作系统对硬件设备的电源操作，或是将硬件设备的电源的状态反馈给操作系统。
+Windows操作系统允许传递SystemPowerState和DevicePowerState两种类型的电源状态信息。
+本论文实现的存储卷过滤器驱动程序只关注SystemPowerState的PowerSystemShutdown电源事件。如图\ref{fig:df-power}所示，当包含系统即将关机信息的IRP被捕获后，电源事件分发函数会同步所有脏缓存块到HDD，并将IRP传递给更底层的设备对象；否则，跳过当前驱动设备对象，传递IRP给更底层的驱动设备对象。
 
 \begin{figure}[h]
 \centering
@@ -198,7 +203,8 @@ VOID _IncreaseBlockReference (
 
 \item IOCTL分发函数
 
-IOCTL分发函数图\ref{fig:df-ioctl}
+IOCTL分发函数实现了IRP\_MJ\_DEVICE\_CONTROL函数接口。IOCTL命令由Windows操作系统的IO管理器或是其他的内核驱动程序发送。大多数情况下，IOCTL类型的IRP是由用户层应用程序调用微软的Win32 API函数DeviceIoControl触发IO管理器产生的。
+每当有存储卷初始化完毕将要上线时，IO管理器会给存储卷所在IO栈上的所有设备对象发送IRP\_MN\_QUERY\_REMOVE\_DEVICE的IOCTL命令。论文实现的存储卷过滤器驱动程序在过滤到此类型的IRP后，会向更底层的设备对象同步发送此IRP。确认存储卷已经上线后，检测上线的存储卷是否是目标卷。如果是目标卷，则查询目标卷的相关信息并进行相应的初始化操作，完成IRP请求；否则直接完成IRP请求（图\ref{fig:df-ioctl}）。
 
 \begin{figure}[h]
 \centering
@@ -209,7 +215,8 @@ IOCTL分发函数图\ref{fig:df-ioctl}
 
 \item PnP事件分发函数
 
-PnP事件分发函数图\ref{fig:df-pnp}
+PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）是总线在检测到硬件设备连接状态改变后，向总线驱动程序发送的一种总线信号。这种总线信号在被PnP事件管理器转换为相应类型的IRP后，会被发送给设备所在IO栈上的设备对象。
+当存储卷即将被移除时，PnP事件管理器会给存储卷所在IO栈上的所有设备对象发送包含IRP\_MN\_REMOVE\_DEVICE信息的IRP。论文实现的存储卷过滤器驱动程序在过滤到此类型的IRP后，会向更底层的设备对象同步发送此IRP。确认存储卷被移除后，如果是被SSD缓存的卷，则停止工作线程、释放缓存索引占用的内存空间、从底层设备对象分离并移除当前驱动程序的设备对象，最终完成IRP请求（图\ref{fig:df-pnp}）。
 
 \begin{figure}[h]
 \centering
