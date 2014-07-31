@@ -8,7 +8,7 @@
 \section{系统整体架构}
 \label{sec:system_overview}
 
-缓存系统的实现可分为存储卷过滤器驱动程序、缓存系统和用户配置工具几部分（图/ref{fig:sys-overview}）。
+缓存系统的实现可分为存储卷过滤器驱动程序、缓存系统和用户配置工具几部分（图\ref{fig:sys-overview}）。
 
 \begin{figure}[htb]
 \centering
@@ -26,6 +26,8 @@
 用户配置工具：通过IOCTL命令与驱动程序进行交互，控制过滤器驱动程序和缓存算法的运行状态。
 \end{itemize}
 
+系统的核心实现是存储卷过滤器驱动程序和缓存系统。这两部分在逻辑上分离，但是实现于同一个Windows内核模块之中（图\ref{fig:sys-flt-arch}）。
+
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/sys-flt-arch}
@@ -34,11 +36,16 @@
 \end{figure}
 
 \begin{itemize}
-\item IO请求过滤器。
-\item 读写请求处理线程。
-\item 缓存页替换算法逻辑。
-\item 回写线程。
-\item 缓存介质访问层。
+\item
+IO请求（IRP）过滤器：过滤存储卷设备所在IO栈上的所有类型IRP，将读写类型的IRP加入读写队列；其他类型的IRP只关注存储卷上线、移除等几种特定的类型。
+\item
+读写请求处理线程：通过与缓存系统交互，处理加入读写队列的IO请求。
+\item
+缓存算法逻辑：使用SSD缓存池中的数据处理针对HDD的读写请求；利用从HDD得到的数据，结合缓存页面替换算法，更新SSD缓存池。
+\item
+回写线程：实现了写回（Write Back）和写穿（Write Through）两种回写策略，定期将缓存池中未与HDD同步的脏数据写回到HDD。
+\item
+缓存介质访问层：管理作为缓存的SSD存储卷的空间分配和读写相关操作。
 \end{itemize}
 
 %% ----------------------------------------------------------------------
