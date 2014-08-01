@@ -5,22 +5,188 @@
 \chapter{实验和结果分析}
 \label{cha:exp_analysis}
 
-
 \section{实验平台}
 \label{sec:exp_platform}
 
+操作系统 Windows Server 2008 R2
+
+机械硬盘 250GB seagate st9250320as
+
+固态硬盘 120GB crucial ct120m500ssd1
 
 \section{实验方法}
 \label{sec:exp_method}
 
+\subsection{测试工具}
+FIO
+
+\subsection{工具参数}
+\begin{lstlisting}
+iodepth=8
+\end{lstlisting}
+
+\begin{lstlisting}
+numjobs=4
+\end{lstlisting}
+
+\begin{lstlisting}
+blocksize=[4k, 16k, 64k]
+\end{lstlisting}
+
+\begin{lstlisting}
+rw=[randrw, randread, randwrite]
+\end{lstlisting}
+
+缓存卷大小 200MB
+
+存储卷大小 2000MB
 
 \section{实验结果}
 \label{sec:exp_results}
 
+\subsection{缓存命中率}
+
+\subsection{写穿（Write Through）策略时的测试结果}
+\begin{itemize}
+
+\item 随机读速度测试
+
+\begin{table}[htb]
+\centering
+\caption{随机读速度（写穿法）}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\hline 4 & 417 & 19264 & 2063 \\ 
+\hline 16 & 1651 & 59735 & 6319 \\ 
+\hline 64 & 5810 & 142304 & 13203 \\ 
+\hline 
+\end{tabular} 
+\label{tab:wt-rand-read-test}
+\end{table}
+
+\item 随机写速度测试
+
+\begin{table}[htb]
+\centering
+\caption{随机写速度（写穿法）}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\hline 4 & 1283 & 18620 & 1155 \\ 
+\hline 16 & 5043 & 40634 & 4768 \\ 
+\hline 64 & 16346 & 41615 & 15490 \\ 
+\hline 
+\end{tabular} 
+\label{tab:wt-rand-write-test}
+\end{table}
+
+\item 随机读写：读速度测试
+
+\begin{table}[htb]
+\centering
+\caption{随机读写-读速度（写穿法）}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\hline 4 & 420 & 14693 & 1590 \\ 
+\hline 16 & 1657 & 46650 & 5327 \\ 
+\hline 64 & 5598 & 105242 & 11929 \\ 
+\hline 
+\end{tabular} 
+\label{tab:wt-randrw-read-test}
+\end{table}
+
+\item 随机读写：写速度测试
+
+\begin{table}[htb]
+\centering
+\caption{随机读写-写速度（写穿法）}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\hline 4 & 45 & 1688 & 181 \\ 
+\hline 16 & 180 & 5427 & 616 \\ 
+\hline 64 & 599 & 11925 & 1371 \\ 
+\hline 
+\end{tabular} 
+\label{tab:wt-randrw-write-test}
+\end{table}
+
+\end{itemize}
+
+\subsection{写回（Write Back）策略时的测试结果}
+\begin{itemize}
+
+\item 随机读速度测试
+
+\begin{table}[htb]
+\centering
+\caption{随机读速度（写回法）}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\hline 4 & 417 & 19264 & 2970 \\ 
+\hline 16 & 1651 & 59735 & 9821 \\ 
+\hline 64 & 5810 & 142304 & 32857 \\ 
+\hline 
+\end{tabular} 
+\label{tab:wb-rand-read-tebst}
+\end{table}
+
+\item 随机写速度测试
+
+\begin{table}[htb]
+\centering
+\caption{随机写速度（写回法）}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\hline 4 & 1283 & 18620 & 3459 \\ 
+\hline 16 & 5043 & 40634 & 8697 \\ 
+\hline 64 & 16346 & 41615 & 21794 \\ 
+\hline 
+\end{tabular} 
+\label{tab:wb-rand-write-test}
+\end{table}
+
+\item 随机读写：读速度测试
+
+\begin{table}[htb]
+\centering
+\caption{随机读写-读速度（写回法）}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\hline 4 & 420 & 14693 & 2725 \\ 
+\hline 16 & 1657 & 46650 & 8693 \\ 
+\hline 64 & 5598 & 105242 & 27696 \\ 
+\hline 
+\end{tabular} 
+\label{tab:wb-randrw-read-test}
+\end{table}
+
+\item 随机读写：写速度测试
+
+\begin{table}[htb]
+\centering
+\caption{随机读写-写速度（写穿法）}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\hline 4 & 45 & 1688 & 309 \\ 
+\hline 16 & 180 & 5427 & 985 \\ 
+\hline 64 & 599 & 11925 & 3221 \\ 
+\hline 
+\end{tabular} 
+\label{tab:wb-randrw-write-test}
+\end{table}
+
+\end{itemize}
 
 \section{结果与讨论}
 \label{sec:results_and_comparation}
 
 %% ----------------------------------------------------------------------
-%%% END OF FILE 
+%%% END OF FILE
 %% ----------------------------------------------------------------------

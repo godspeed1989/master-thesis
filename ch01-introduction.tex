@@ -21,15 +21,15 @@
 
 大数据对存储系统的容量、速度及可靠性提出了非常高的要求，一些高性能的存储设备由此产生。固态硬盘（SSD）作为其中的佼佼者被引入传统的以机械硬盘（HDD）为主的存储系统。SSD 的读写性能远远高于传统的机械硬盘（表\ref{tab:ssd-speed-compare}），将SSD 引入存储系统中，将大大提高系统的性能。
 
-\begin{table}[h]
+\begin{table}[htb]
 \centering
+\caption{HDD、DRAM和SSD的读写速度比较}
 \begin{tabular}{|c|c|c|c|}
-\hline  & Hard Disk & DRAM & SSD \\ 
-\hline Read Access & 8.3ms & 60ns & 85ns \\ 
-\hline Write Access & 9.1ms & 60ns & 4-10ms \\ 
-\hline 
-\end{tabular} 
-\caption{SSD速度比较}
+\hline  & Hard Disk & DRAM & SSD \\
+\hline Read Access & 8.3ms & 60ns & 85ns \\
+\hline Write Access & 9.1ms & 60ns & 4-10ms \\
+\hline
+\end{tabular}
 \label{tab:ssd-speed-compare}
 \end{table}
 
@@ -42,17 +42,18 @@
 
 针对SSD价格高、容量小、功耗低等特点，很多公司和研究者针对SSD 的使用场景，提出了基于SSD的混合或分级存储解决方案。这些方案与全SSD解决方案相比价格更能被接受。同时，相比于传统的使用DRAM作为缓冲区，基于NAND或NOR的SSD有着功耗低（表\ref{tab:ssd-power-compare}）、存储密度高以及可扩展性强的优势。
 
-\begin{table}[h]
+\begin{table}[htb]
 \centering
+\caption{DRAM、Flash功耗比较}
 \begin{tabular}{|c|c|c|c|}
-\hline  & Density-Gb/cm2 & Active Power* & Idel Power* \\ 
-\hline DDR2 DRAM & 0.7 & 878mW & 80mW \\ 
-\hline NOR & 0.75 & 86mW & 16μW \\ 
-\hline NAND & 1.42 & 28mW & 6μW \\ 
-\hline 
+\hline
+\diagbox{介质}{功耗} & Density-Gb/cm2 & Active Power* & Idel Power* \\
+\hline DDR2 DRAM & 0.7 & 878mW & 80mW \\
+\hline NOR & 0.75 & 86mW & 16μW \\
+\hline NAND & 1.42 & 28mW & 6μW \\
+\hline
 \end{tabular}
 \\ * Power consumed for 1Gbit of memory
-\caption{SSD功耗比较}
 \label{tab:ssd-power-compare}
 \end{table}
 
@@ -86,5 +87,5 @@ FC/SAS企业级闪存驱动器制造商STEC开源了Linux系统的EnhanceIO SSD�
 第六章：总结与展望。总结论文的研究成果和解决方案的贡献，展望进一步的系统性能改进意见。
 
 %% ----------------------------------------------------------------------
-%%% END OF FILE 
+%%% END OF FILE
 %% ----------------------------------------------------------------------

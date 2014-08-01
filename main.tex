@@ -7,6 +7,7 @@
 \usepackage{layout}
 \usepackage{listings}  % don't forget [fragile] option after \begin{frame}
 \lstset{language=C++, basicstyle=\ttfamily, numbers=none, xleftmargin=5pt, showstringspaces=false, frame=single} %keywordstyle=\color{red}
+\usepackage{diagbox}
 
 %%%%%%%%%%%%%%%
 % 该文档的具体内容填写请参照‘thesis-master.tex’文档
@@ -44,7 +45,7 @@
 \input{abstract}
 
 % 生成论文的封面、声明页、中英文摘要
-\makecover
+%\makecover
 
 % 插图索引
 \listoffigures
@@ -63,8 +64,8 @@
 \input{ch01-introduction}
 \input{ch02-related_tech}
 \input{ch03-key_tech}
-%\input{ch04-design_impl}
-%\input{ch05-experiment}
+\input{ch04-design_impl}
+\input{ch05-experiment}
 %\input{ch06-conclusions}
 
 %%%%%%%%%%%%%%%
