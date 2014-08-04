@@ -204,8 +204,8 @@
   \def\@evenhead{\vbox{\hbox to\textwidth{\hfil{\xiaowu\rightmark}\hfil}%
       \vskip2pt\ifxdu@doctor\rule{\textwidth}{1mm}\vskip1bp\fi%
       \rule{\textwidth}{0.5pt}\vskip0.5pt\rule{\textwidth}{0.5pt}}}%
-  \def\@oddfoot{\ifxdu@doctor\ps@xdu@foot@doctor\else\ifxdu@master\ps@xdu@foot@master\fi}%
-  \def\@evenfoot{\ifxdu@doctor\ps@xdu@foot@doctor\else\ifxdu@master\ps@xdu@foot@master\fi}}%
+  \def\@oddfoot{\ifxdu@doctor\ps@xdu@foot@doctor\else\ifxdu@master\ps@xdu@foot@master\fi\fi}%
+  \def\@evenfoot{\ifxdu@doctor\ps@xdu@foot@doctor\else\ifxdu@master\ps@xdu@foot@master\fi\fi}}%
 \def\ps@xdu@headings{%
   \def\@oddhead{\vbox{\hbox to\textwidth{\hfil{\xiaowu\leftmark}\hfil}%
       \vskip2pt\ifxdu@doctor\rule{\textwidth}{1mm}\vskip1pt\fi%
