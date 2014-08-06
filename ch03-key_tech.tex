@@ -13,7 +13,7 @@
 \subsection{Windows驱动程序模型（WDM）}
 Windows驱动模型（Windows Driver Mode, WDM）是使用Windows NT内核的Windows操作系统驱动程序的设计规范。这一规范定义了一整套的驱动程序接口、数据结构、组织关系和模块间的交互协议。
 WDM模型按照面向对象的设计思想，将操作系统内核中的所有组件划分为设备对象（Device Object）和驱动对象（Driver Object）两类。设备对象既可以对应具体的硬件设备，如磁盘、键盘、显示器，也可以对应逻辑上存在的设备，如存储卷、虚拟光驱、Ramdisk。驱动对象对应了加载到内核的驱动程序，如显卡驱动、网卡驱动、鼠标驱动。一台计算机可以存在多个同类型的硬件设备，这些设备只需要一种驱动程序就可以驱动。设备对象这种内核数据结构都是由驱动对象创建和注册的，创建的驱动对象负责设备对象的管理工作。设备对象不存在时，驱动对象可以独立存在。图\ref{fig:drv-to-dev}描述了这样一种从设备对象到驱动对象的一对多的对应关系。
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/drv-to-dev}
 \caption{设备对象和驱动对象的对应关系}
@@ -39,7 +39,7 @@ IRP(I/O request package)是Windows内核中一种用于驱动程序模块之间�
 
 \subsection{存储卷过滤器驱动}
 任何设备的驱动程序堆栈都可以插入过滤器驱动程序。一个典型的驱动程序堆栈如图\ref{fig:io-stack-filter}所示，过滤器驱动程序不是设备运行所必须的，因此在图中以虚线画出。
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/io-stack-filter}
 \caption{驱动程序堆栈和过滤器驱动程序}
@@ -79,7 +79,7 @@ LFU算法需要为每个缓存块设置一个计数器，记录访问次数。�
 \begin{itemize}
 \item
 替换算法使用冷、热两个链表管理缓存块（图\ref{fig:replace-algo-1}），初始状态下两个链表均为空。两个链表所能管理的空间之和代表了混存的总容量。
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/replace-algo-1}
 \caption{替换算法使用两个链表管理缓存块}
@@ -88,7 +88,7 @@ LFU算法需要为每个缓存块设置一个计数器，记录访问次数。�
 
 \item
 当冷链表不为满时，新到来的缓存块首先会被加入到冷链表的热端，在运行过程中会统计每个缓存块访问的次数。图\ref{fig:replace-algo-2}展示了缓存块以A->B->C->D->E的字母表顺序加入后的缓存的组织状态状态。
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/replace-algo-2}
 \caption{新到来的缓存块加入到冷链表}
@@ -97,7 +97,7 @@ LFU算法需要为每个缓存块设置一个计数器，记录访问次数。�
 
 \item
 随着系统运行，缓存块会被不断加入。当冷链表已满，而又需要加入新的缓存块时。新的缓存块仍旧会被加入到冷链的热端，为腾出空间冷端就需要移出一个缓存块到临时空间。缓存算法会判断被移出缓存块的引用计数，如果其引用计数大于等于2，则清零其引用计数，并加入到热链表的热端；否则改缓存块占用的空间将会被释放。图\ref{fig:replace-algo-3}展示了加入块G移出块A的过程。
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/replace-algo-3}
 \caption{冷链表满时加入缓存块的处理策略}
@@ -106,7 +106,7 @@ LFU算法需要为每个缓存块设置一个计数器，记录访问次数。�
 
 \item
 新缓存块的持续到来导致冷链表中的缓存块不断被移动到热链表，热链表也会逐渐变满。继续从冷链表向热链表移动缓存块会导致热链表的冷端的缓存块像图\ref{fig:replace-algo-3}中冷链表的冷端的缓存块一样被换出。这些被换出的缓存块的引用计数被清零后，被加入到冷链的热端，重复图\ref{fig:replace-algo-3}的过程。这一过程在图\ref{fig:replace-algo-4}中被描述。
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.7\linewidth]{./graph/replace-algo-4}
 \caption{冷热链表均满时加入缓存块的处理策略}
@@ -126,7 +126,7 @@ LFU算法需要为每个缓存块设置一个计数器，记录访问次数。�
 \item 直接相联映射
 \\主存储器中的每一块映射到缓存中的某个特定存储块中。缓存中的每个缓存块与主存中的一个或多个存储块相关联（图\ref{fig:cache-map-1}）。
 
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.3\linewidth]{./graph/cache-map-1}
 \caption{直接相联映射}
@@ -146,7 +146,7 @@ j = i mod m	（m为主存每一区的总块数）
 \item 全相联映射
 \\主存储器中的任意一块可以映射到缓存中的任意一块（图\ref{fig:cache-map-2}）。
 
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.3\linewidth]{./graph/cache-map-2}
 \caption{全相联映射}
@@ -164,7 +164,7 @@ j = i mod m	（m为主存每一区的总块数）
 \item 组相联映射
 \\主储存器的每一组都与缓存中的某一组相对应，组内的每个块与缓存组内的任意一个存储块相映射（图\ref{fig:cache-map-3}）。
 
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/cache-map-3}
 \caption{组相联映射}
@@ -222,9 +222,46 @@ j = i mod m	（m为主存每一区的总块数）
 \subsection{B+树索引}
 B+树是一种树数据结构，通常用于数据库和操作系统的文件系统中。B+ 树的特点是其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反。
 
+\begin{itemize}
+
+\item B+树的节点结构
+
 B+树中，节点被表示为一组有序的元素和子指针。如果B+树的阶（order）是m，那么。除了根节点外的每个节点都包含最少m/2个最多m-1个元素。对于所有内部节点，子指针的数目总是比元素的数目多一个，内部节点的子指针指向其他节点。所有叶子都在相同的高度上，叶子节点的子指针的数目等同于元素的数目，叶子节点的子指针指向被索引的数据。图\ref{fig:bplus-tree}展示了一棵阶为4的B+树。
 
-\begin{figure}[htb]
+B+树内部节点的元素充当了其子树的分离值。例如，某个内部节点存在两分离值（元素）$a_1$和$a_2$，则其必须存在三个子指针指向其子树：左子树的所有节点的元素值均小于$a_1$，中间子树所有节点的元素值处于$[a_1,a_2)$区间，右子树的所有节点的元素值均大于等于$a_2$。
+
+\item B+树的查找算法
+
+B+树的查找算法和排序二叉树的查找方法类似：从根节点开始，自顶向下遍历树的节点，根据要查找数据的索引值决定选择分离值哪一边的子指针。使用子指针进入下一层的节点，重复查找，直到到达叶子节点。遍历叶子节点的所有元素，查找索引值，如果存在相同元素则找到，否则B+树中不存在查询索引。
+
+\item B+树的插入算法
+
+当节点内元素的树木不属于B+树节点结构的可接受的范围时，这个B+树节点处于违规状态。节点内元素的最小数目必须大于最大数目的一半。B+树的插入过程要处理节点违规的情况，插入过程为：
+\begin{enumerate}
+\item 根据索引值，查找要插入元素的叶子节点。
+\item 将元素插入到叶子节点内的合适位置。
+\item 如果此时的叶子节点没有处于违规状态，处理结束。
+\item 如果此时的叶子节点存在过多的元素，则分裂成两个叶子节点，这两个节点拥有最小数目元素。分裂操作导致上一层节点的子指针数目增加一个，因此需要递归向上处理直到到达根节点。如果根节点也被分裂，则创建新的根节点，根节点的元素个数没有下限的要求。
+\end{enumerate}
+
+\item B+树的删除算法
+
+B+树的删除过程要处理节点违规的情况，删除过程为：
+
+\begin{enumerate}
+\item 根据索引值，查找要删除元素的叶子节点。
+\item 将叶子节点内的待删除元素删除。
+\item 如果此时的叶子节点没有处于违规状态，处理结束。
+\item 此时节点可能处于以下两种违规的状态之一，递归向上处理违规的叶子节点，直到不存在违规节点：
+\begin{enumerate}
+\item 节点的左、右兄弟节点，在不变为违规节点的前提下，可以把一或多个子节点移动到处于违规状态的节点，使其变为合法的节点。在移动子节点后更新父节点和兄弟节点的分离值，递归向上处理。
+\item 节点的左、右兄弟节点内的元素个数均处于合法个数的下界。这种情况下，把左或右兄弟节点与处于违规状态的节点合并，再平均分裂为两个节点，更新父节点和兄弟节点的分离值，持续这一过程直到当前节点是合法状态或者到达根节点。
+\end{enumerate}
+\end{enumerate}
+
+\end{itemize}
+
+\begin{figure}[H]
 \centering
 \includegraphics[width=1\linewidth]{./graph/bplus-tree}
 \caption{B+树结构}
@@ -237,7 +274,7 @@ B+树中，节点被表示为一组有序的元素和子指针。如果B+树的�
 对于应用程序的读请求，HDD上的数据不会被改变，因此不存在数据一致性的问题。对于应用程序的写请求，需要决定是直接应用写操作到HDD还是延迟写。学术上存在三种回写策略：写穿法、写回法和写一次法。本系统实现了前两套处理方案。
 
 \subsection{写穿法（Write Through）}
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/write-through}
 \caption{写穿法处理策略}
@@ -247,7 +284,7 @@ B+树中，节点被表示为一组有序的元素和子指针。如果B+树的�
 对于写请求，同时应用于HDD和SSD缓存。由于HDD和缓存是同时写入的，因此无需考虑数据一致性问题，也无需为每个缓存块设置标志位标记反映此块是否被修改过（图\ref{fig:write-through}）。
 
 \subsection{写回法（Write Back）}
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/write-back}
 \caption{写回法处理策略}
@@ -256,7 +293,7 @@ B+树中，节点被表示为一组有序的元素和子指针。如果B+树的�
 
 对于写请求，在应用于SSD缓存后就结束请求。为每个缓存块设置修改标志，将标志为脏的缓存块加入回写队列（图\ref{fig:write-back-queue}）。
 
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/write-back-queue}
 \caption{指向脏数据块的回写队列}
@@ -265,7 +302,7 @@ B+树中，节点被表示为一组有序的元素和子指针。如果B+树的�
 
 回写队列的大小是固定。随着脏数据块的加入，当回写队列满时，会触发回写线程进行回写操作。会写线程会将队列中的所有脏缓存块刷回HDD。同样的，当线程接收到回写所有或线程终止信号时，也会进行刷回所有脏缓存块到HDD的操作（图\ref{fig:write-back-thread}）。
 
-\begin{figure}[htb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/write-back-thread}
 \caption{回写线程的回写逻辑}
