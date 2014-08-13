@@ -18,9 +18,11 @@
 \label{sec:exp_method}
 
 \subsection{测试工具}
-FIO
+FIO是一款基于GPLV2协议的广泛使用的存储器IOPS测试工具，主要用来对存储设备进行性能验证和压力测试，也提供CPU，NIC的IO性能测试功能。FIO支持13种不同的IO引擎，可以通过多线程或进程模拟各种IO操作。作为一款开源工具，FIO支持几乎所有常见的操作系统平台：Linux，FreeBSD，NetBSD，OS X，OpenSolaris，AIX，Windows。
 
-\subsection{工具参数}
+FIO只提供命令行界面，由于提供了丰富的可配置的参数，FIO的可定制性非常强，可以根据测试者的想法进行各种混合IO的测试。本论文的实验测试只使用其中的一部分参数。
+
+\subsection{测试参数说明}
 \begin{lstlisting}
 iodepth=8
 \end{lstlisting}
