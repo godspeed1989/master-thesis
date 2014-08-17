@@ -49,7 +49,7 @@ SSD厂商为了减少Write cliff对性能的影响，加入了TRIM指令。当�
 \section{缓存技术}
 \label{sec:cache_tech}
 
-尽管自二十世纪九十年代以来，计算机硬件技术的发展带来了磁盘存储密度每半年到一年一倍的提升，但没有相应的技术能够以同样的速度缩短存储介质的访问时间。缓存技术作为一种减少IO子系统的响应时间增加系统吞吐量的解决方案，已被广泛应用于存储子系统中。
+尽管自二十世纪九十年代以来，计算机硬件技术的发展带来了磁盘存储密度每半年到一年一倍的提升，但没有相应的技术能够以同样的速度缩短存储介质的访问时间。缓存技术作为一种减少IO子系统的响应时间、增加系统吞吐量的解决方案，已被广泛应用于存储子系统中。
 
 缓存系统的存在通常是为了达到三个目标：
 \begin{enumerate}
@@ -134,12 +134,14 @@ T_3=T_q+T_1+T_u
 综上可以得出$T_2$与$T_3$的关系，同时，$T_3$也可以用$T_2$来表示（式\ref{equ:cache_evaluation_t2t3}）。
 
 \begin{equation}
-\label{equ:cache_evaluation_t2t3}
 T_3-T_2=T_1+T_u-T_c
-T_3=T_1+T2+T_u-T_c
+\end{equation}
+\begin{equation}
+\label{equ:cache_evaluation_t2t3}
+T_3=T_1+T_2+T_u-T_c
 \end{equation}
 
-最后，将式\ref{equ:cache_evaluation_t2t3}带入到提升比例计算公式\ref{equ:cache_evaluation_enhance1}，得出式\ref{equ:cache_evaluation_enhance2}。
+最后，将式\ref{equ:cache_evaluation_t2t3}带入到提升比例计算公式\ref{equ:cache_evaluation_enhance1}，得出最终的性能提升比例计算公式\ref{equ:cache_evaluation_enhance2}。
 
 \begin{equation}
 \begin{split}
@@ -152,6 +154,7 @@ T_3=T_1+T2+T_u-T_c
 \end{equation}
 
 $T_1$取决于被缓存储介质的性能；$T_c$取决于缓存存储介质的性能。这两个值在硬件环境一定的情况下为定值。
+
 提升缓存系统性能就是提高缓存系统为原系统带来的性能提升比例。式\ref{equ:cache_evaluation_enhance2}表明，可以从以下三个点着手：
 
 \begin{enumerate}
@@ -163,7 +166,7 @@ $T_1$取决于被缓存储介质的性能；$T_c$取决于缓存存储介质的�
 优化缓存算法，提高缓存命中率$R$。
 \end{enumerate}
 
-上面的三个着手点从工程的经验角度讲也是行得通的。
+从工程的经验角度讲上面的三个着手点也是行得通的。
 
 %% ----------------------------------------------------------------------
 %%% END OF FILE

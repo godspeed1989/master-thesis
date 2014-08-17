@@ -13,7 +13,7 @@
    height="260.92859"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.48.5 r10040"
    sodipodi:docname="drv-to-dev.svg">
   <defs
      id="defs4">
@@ -53,21 +53,25 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="210.14982"
-     inkscape:cy="104.71706"
+     inkscape:zoom="1.979899"
+     inkscape:cx="147.38283"
+     inkscape:cy="125.04136"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1328"
-     inkscape:window-height="878"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="1270"
+     inkscape:window-height="749"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-bottom="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3037" />
+  </sodipodi:namedview>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -76,7 +80,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -217,7 +221,7 @@
            height="122.14286"
            x="312.85715"
            y="299.50504" /></flowRegion><flowPara
-         id="flowPara3150"></flowPara></flowRoot>    <flowRoot
+         id="flowPara3150" /></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3152"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
@@ -227,7 +231,7 @@
            height="92.14286"
            x="306.42856"
            y="403.07648" /></flowRegion><flowPara
-         id="flowPara3158"></flowPara></flowRoot>    <g
+         id="flowPara3158" /></flowRoot>    <g
        id="g4599">
       <flowRoot
          transform="matrix(0.96267032,0,0,0.93706592,201.12171,113.7385)"
@@ -273,9 +277,10 @@
        id="path4617"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.99059403px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#EmptyTriangleOutL)"
-       d="m 263.14004,456.37218 74.25561,0 0,0"
-       id="path4989"
-       inkscape:connector-curvature="0" />
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#EmptyTriangleOutL)"
+       d="m 164,132.92859 76,93"
+       id="path3039"
+       inkscape:connector-curvature="0"
+       transform="translate(98.92856,320.9336)" />
   </g>
 </svg>
