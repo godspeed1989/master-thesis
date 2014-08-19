@@ -167,7 +167,7 @@
 \xdu@define@fontsize{xiaoliu}{6.5bp}
 \xdu@define@fontsize{qihao}{5.5bp}
 \xdu@define@fontsize{bahao}{5bp}
-\renewcommand\normalsize{\@setfontsize\normalsize{12bp}{18bp}}
+\renewcommand\normalsize{\@setfontsize\normalsize{12bp}{16.6bp}}
 \renewcommand\baselinestretch{1.2}
 \setlength{\textwidth}{\paperwidth}
 \setlength{\textheight}{\paperheight}
@@ -310,6 +310,8 @@
               {\titlerule*[\xdu@dot@space]{\bfseries{.}}\bfseries\contentspage}
 \dottedcontents{section}[3em]{}{2.1em}{\xdu@dot@space}
 \dottedcontents{subsection}[5em]{}{2.7em}{\xdu@dot@space}
+\dottedcontents{figure}[3em]{}{2.1em}{\xdu@dot@space}
+\dottedcontents{table}[3em]{}{2.1em}{\xdu@dot@space}
 \def\xdu@define@term#1{
   \expandafter\gdef\csname #1\endcsname##1{%
     \expandafter\gdef\csname xdu@#1\endcsname{##1}}
