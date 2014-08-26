@@ -103,10 +103,10 @@ FIO提供random\_distribution参数来使得设备文件的一部分空间比其
 
 \begin{table}[H]
 \centering
-\caption{随机读速度（写穿法）}
+\caption{随机读速度（KB/s，写穿法）}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\diagbox{块大小（KB）}{存储介质} & HDD & SSD & HDD with SSD Cache \\ 
 \hline 4 & 417 & 19264 & 2063 \\ 
 \hline 16 & 1651 & 59735 & 6319 \\ 
 \hline 64 & 5810 & 142304 & 13203 \\ 
@@ -121,10 +121,10 @@ FIO提供random\_distribution参数来使得设备文件的一部分空间比其
 
 \begin{table}[H]
 \centering
-\caption{随机写速度（写穿法）}
+\caption{随机写速度（KB/s，写穿法）}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\diagbox{块大小（KB）}{存储介质} & HDD & SSD & HDD with SSD Cache \\ 
 \hline 4 & 1283 & 18620 & 1155 \\ 
 \hline 16 & 5043 & 40634 & 4768 \\ 
 \hline 64 & 16346 & 41615 & 15490 \\ 
@@ -139,10 +139,10 @@ FIO提供random\_distribution参数来使得设备文件的一部分空间比其
 
 \begin{table}[H]
 \centering
-\caption{随机读写-读速度（写穿法）}
+\caption{随机读写-读速度（KB/s，写穿法）}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\diagbox{块大小（KB）}{存储介质} & HDD & SSD & HDD with SSD Cache \\ 
 \hline 4 & 420 & 14693 & 1590 \\ 
 \hline 16 & 1657 & 46650 & 5327 \\ 
 \hline 64 & 5598 & 105242 & 11929 \\ 
@@ -157,10 +157,10 @@ FIO提供random\_distribution参数来使得设备文件的一部分空间比其
 
 \begin{table}[H]
 \centering
-\caption{随机读写-写速度（写穿法）}
+\caption{随机读写-写速度（KB/s，写穿法）}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\diagbox{块大小（KB）}{存储介质} & HDD & SSD & HDD with SSD Cache \\ 
 \hline 4 & 45 & 1688 & 181 \\ 
 \hline 16 & 180 & 5427 & 616 \\ 
 \hline 64 & 599 & 11925 & 1371 \\ 
@@ -180,16 +180,16 @@ FIO提供random\_distribution参数来使得设备文件的一部分空间比其
 
 \begin{table}[H]
 \centering
-\caption{随机读速度（写回法）}
+\caption{随机读速度（KB/s，写回法）}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\diagbox{块大小（KB）}{存储介质} & HDD & SSD & HDD with SSD Cache \\ 
 \hline 4 & 417 & 19264 & 2970 \\ 
 \hline 16 & 1651 & 59735 & 9821 \\ 
 \hline 64 & 5810 & 142304 & 32857 \\ 
 \hline 
 \end{tabular} 
-\label{tab:wb-rand-read-tebst}
+\label{tab:wb-rand-read-test}
 \end{table}
 
 写回模式下，HDD的随机读性能有5.6-7.1倍的提升。
@@ -198,10 +198,10 @@ FIO提供random\_distribution参数来使得设备文件的一部分空间比其
 
 \begin{table}[H]
 \centering
-\caption{随机写速度（写回法）}
+\caption{随机写速度（KB/s，写回法）}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\diagbox{块大小（KB）}{存储介质} & HDD & SSD & HDD with SSD Cache \\ 
 \hline 4 & 1283 & 18620 & 3459 \\ 
 \hline 16 & 5043 & 40634 & 8697 \\ 
 \hline 64 & 16346 & 41615 & 21794 \\ 
@@ -216,10 +216,10 @@ FIO提供random\_distribution参数来使得设备文件的一部分空间比其
 
 \begin{table}[H]
 \centering
-\caption{随机读写-读速度（写回法）}
+\caption{随机读写-读速度（KB/s，写回法）}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\diagbox{块大小（KB）}{存储介质} & HDD & SSD & HDD with SSD Cache \\ 
 \hline 4 & 420 & 14693 & 2725 \\ 
 \hline 16 & 1657 & 46650 & 8693 \\ 
 \hline 64 & 5598 & 105242 & 27696 \\ 
@@ -234,10 +234,10 @@ FIO提供random\_distribution参数来使得设备文件的一部分空间比其
 
 \begin{table}[H]
 \centering
-\caption{随机读写-写速度（写穿法）}
+\caption{随机读写-写速度（KB/s，写回法）}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\diagbox{大小（KB）}{速度（KB/s）} & HDD & SSD & HDD with SSD Cache \\ 
+\diagbox{块大小（KB）}{存储介质} & HDD & SSD & HDD with SSD Cache \\ 
 \hline 4 & 45 & 1688 & 309 \\ 
 \hline 16 & 180 & 5427 & 985 \\ 
 \hline 64 & 599 & 11925 & 3221 \\ 
@@ -253,13 +253,53 @@ FIO提供random\_distribution参数来使得设备文件的一部分空间比其
 \section{结果与讨论}
 \label{sec:results_and_comparation}
 
+\subsection{HDD性能提升比例}
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\linewidth]{./graph/enhance-rate}
-\caption{IO性能提升比例比较}
+\caption{读写性能提升比例比较}
 \label{fig:enhance-rate}
 \end{figure}
 
+从图\ref{fig:enhance-rate}可以看出，由于缓存系统的存在，HDD的随机读、随机写性能都得到了一定程度的提升。相较于写穿法，写回法对存储系统的性能提升比例更为明显。
+
+\subsection{与FancyCache软件比较}
+FancyCache是一款流行的使用SSD作为缓存提升存储系统性能的软件。FancyCache可以将系统内存或SSD空间虚拟成硬盘缓存。FancyCache将从硬盘中读取的数据存入系统内存或闪存，使系统在下次访问该数据时可以很快从内存读取，避免再次读取速度较慢的硬盘，从而突破硬盘瓶颈，提升系统性能。FancyCache还具有检测和利用系统未识别内存的功能，解决32位Windows操作系统无法完全使用4G或更多内存的问题。通过将检测到的系统未识别内存用作硬盘缓存的方式，FancyCache可以使计算机能够利用全部安装的内存。
+
+为了说明本论文实现的缓存系统与主流缓存软件对系统性能提升的差距，在系统的实验阶段，论文还测试了使用FancyCache缓存软件时HDD的读写性能。由于通过上节的测试可以得出本论文实现的缓存系统运行于回写模式时，对HDD的随机读写性能提升最为明显，且FancyCache的缓存也是运行于回写模式，所以本节会使用运行于回写模式时HDD的随机读写性能和FancyCache软件进行比较。
+
+\begin{table}[H]
+\centering
+\caption{随机读速度比较（KB/s）}
+\begin{tabular}{|c|c|c|}
+\hline
+\diagbox{块大小（KB）}{缓存系统} & 本论文的 & FancyCache \\ 
+\hline 4  & 2970 & 2508 \\ 
+\hline 16 & 9821 & 10254 \\ 
+\hline 64 & 32857 & 51833 \\ 
+\hline 
+\end{tabular} 
+\label{tab:wb-rand-read-comp}
+\end{table}
+
+从随机读测试的结果可以看出，IO请求的大小为4KB时，本论文实现的缓存系统性能优于FancyCache；当IO请求比较大时，FancyCache的效果更为明显，这是因为论文实现的缓存系统的缓存块单位是4KB，读写请求大于4KB时会将一个读写请求分为多个处理，影响了系统的性能。
+
+\begin{table}[H]
+\centering
+\caption{随机写速度比较（KB/s）}
+\begin{tabular}{|c|c|c|}
+\hline
+\diagbox{块大小（KB）}{缓存系统} & 本论文的 & FancyCache \\ 
+\hline 4  & 2970 & 3021 \\ 
+\hline 16 & 9821 & 9982 \\ 
+\hline 64 & 32857 & 32258 \\ 
+\hline 
+\end{tabular} 
+\label{tab:wb-rand-write-comp}
+\end{table}
+
+进行随机写测试，IO请求的大小为4KB和16KB时，FancyCache的性能优于本论文实现的缓存系统，但差距不大；IO请求的大小为64KB时，本论文实现的缓存系统略优于FancyCache。
 
 %% ----------------------------------------------------------------------
 %%% END OF FILE
