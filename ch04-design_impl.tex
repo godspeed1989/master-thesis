@@ -109,6 +109,14 @@ bool InitCachePool (
 );
 \end{lstlisting}
 传入缓存池结构体指针。初始化成功返回TRUE，否则返回FALSE。
+\\具体步骤为：
+\begin{enumerate}
+\item 初始化缓存池结构体的内部变量。
+\item 初始化存储访问层和缓存存储设备。
+\item 初始化缓存块索引数据结构B+树。
+\item 初始化缓存页面替换算法所用到的数据结构。
+\end{enumerate}
+任何一步出现错误都撤回之前成功的操作，返回FALSE。所有步骤都成功才返回TRUE。
 
 \item DestroyCachePool
 \\销毁缓存存储块池，释放存储空间。
@@ -117,6 +125,12 @@ void DestroyCachePool (
     PCACHE_POOL CachePool
 );
 \end{lstlisting}
+具体步骤为：
+\begin{enumerate}
+\item 销毁缓存页面替换算法所用到的数据结构。
+\item 销毁缓存块索引数据结构B+树。
+\item 销毁存储访问层和停止缓存存储设备。
+\end{enumerate}
 
 \item QueryAndCopyFromCachePool
 \\查询缓存池中的数据是否命中偏移为Offset，长度为Length的主存储设备读请求。
@@ -129,6 +143,15 @@ bool QueryAndCopyFromCachePool (
 );
 \end{lstlisting}
 传入缓存池结构体指针，数据位置和数据指针。如果完全命中，拷贝数据到Buffer，返回TRUE；如果不命中，返回FALSE。
+\\具体步骤为：
+\begin{enumerate}
+\item 检测读请求的起始和末尾部分是否存在不对齐的情况。
+\item 计算完成该读请求所需要的所有缓存块。
+\item 逐一检查所需的缓存块是否在缓存池中命中。
+\item 如果没有全部命中，函数结束，返回FALSE。
+\item 逐一拷贝命中的缓存块数据到传入的Buffer中。
+\item 函数结束，返回TRUE。
+\end{enumerate}
 
 \item QueryAndWriteToCachePool
 \\查询缓存池中的数据是否命中偏移为Offset，长度为Length的主存储设备写请求。
@@ -141,9 +164,18 @@ bool QueryAndWriteToCachePool (
 );
 \end{lstlisting}
 传入缓存池结构体指针，数据位置和数据指针。如果完全命中，使用Buffer中的数据更新缓存池中的数据，返回TRUE；如果不命中，返回FALSE。
+\\具体步骤为：
+\begin{enumerate}
+\item 检测写请求的起始和末尾部分是否存在不对齐的情况。
+\item 计算此次写操作所涉及到的所有缓存块。
+\item 逐一检查所需的缓存块是否在缓存池中命中。
+\item 如果没有全部命中，函数结束，返回FALSE。
+\item 使用传入Buffer中的数据，逐一更新所有涉及到的缓存块的数据。
+\item 函数结束，返回TRUE。
+\end{enumerate}
 
 \item ReadUpdataCachePool
-\\使用缓存页面替换算法，利用从HDD读出的数据更新缓存池。
+\\使用缓存页面替换算法，使用从HDD读出的数据更新缓存池。
 \begin{lstlisting}
 void ReadUpdataCachePool (
     PCACHE_POOL CachePool,
@@ -153,6 +185,17 @@ void ReadUpdataCachePool (
 );
 \end{lstlisting}
 传入缓存池结构体指针，数据位置和数据指针。Buffer中是从HDD读出的偏移为Offset，长度为Length的数据。如果缓存池还有空间，加入新缓存块到缓存池；否则使用缓存页面替换算法找出缓存块进行替换。
+\\具体步骤为：
+\begin{enumerate}
+\item 检测HDD数据的起始和末尾部分是否存在不对齐的情况。
+\item 逐一处理HDD数据所涉及的缓存块。具体步骤见图\ref{fig:read-update-pool}，其中的虚线部分只有在写回模式时才会执行。
+\end{enumerate}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{./graph/read-update-pool}
+\caption{使用读数据更新缓存池}
+\label{fig:read-update-pool}
+\end{figure}
 
 \item WriteUpdataCachePool
 \\使用缓存页面替换算法，利用已经写入HDD的数据更新缓存池。
@@ -165,6 +208,16 @@ void WriteUpdataCachePool (
 );
 \end{lstlisting}
 传入缓存池结构体指针，数据位置和数据指针。Buffer中的数据是偏移为Offset，长度为Length的最新HDD数据。为保证数据的一致性，需要更新缓存中与HDD上最新数据（偏移为Offset，长度为Length）有重叠部分的数据。
+\begin{enumerate}
+\item 检测HDD数据的起始和末尾部分是否存在不对齐的情况。
+\item 逐一处理HDD数据所涉及的缓存块。具体步骤见图\ref{fig:write-update-pool}，其中的虚线部分只有在写回模式时才会执行。
+\end{enumerate}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{./graph/write-update-pool}
+\caption{使用写数据更新缓存池}
+\label{fig:write-update-pool}
+\end{figure}
 
 \item IsEmpty
 \\判断缓存存储块池是否为空。
