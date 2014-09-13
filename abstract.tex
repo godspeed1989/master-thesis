@@ -4,18 +4,18 @@
 
 \begin{cabstract}
 
-固态硬盘（SSD）作为一种出现相对较晚的存储介质，已经逐渐被部署到数据存储中心。相比于机械硬盘（HDD），固态硬盘有着体积小、功耗低以及访问速度快的优势。但是，固态硬盘的高昂价格使其大多数情况下只出现在高端存储系统。在许多存储中心，固态硬盘和机械硬盘是被同时部署的，且只有部分的SSD存储空间被用作存储。如果能够充分利用未使用的固态硬盘空间作为机械硬盘的缓冲区，系统IO性能将会得到明显的提升。
+固态硬盘（SSD）作为一种出现相对较晚的存储介质，已经逐渐被部署到数据存储中心。相比于机械硬盘（HDD），固态硬盘有着体积小、功耗低以及访问速度快的优势。但是，固态硬盘的高昂价格使其大多数情况下只出现在高端存储系统。在许多存储中心，固态硬盘和机械硬盘是被同时部署的，且只有部分存储空间被用作存储。如果能够将未使用的固态硬盘空间用作机械硬盘的缓存，系统IO性能将会得到明显的提升。
 
-针对固态硬盘和机械硬盘同时存在但性能却没有得到充分发挥这一现状，本论文提出了一种基于HDD-SSD的混合存储解决方案：使用固态硬盘的存储空间为机械硬盘做缓存，通过实现多种缓存管理算法，提升机械硬盘的IO性能。
+针对固态硬盘和机械硬盘同时存在但性能却没有得到充分发挥这一现状，本论文提出了一种基于SSD的HDD缓存系统解决方案：使用固态硬盘的存储空间为机械硬盘做缓存，通过实现多种缓存管理算法，提升机械硬盘的IO性能。
 
-基于数据局部性原理的缓存算法会在冷数据保持不变的前提下，将访问频繁的热数据在系统运行过程中由机械硬盘复制到固态硬盘，再次访问的热数据将会带来更低的读写延迟。LRU、LFU以及一种论文提出的新的缓存页面替换算法将会被应用。这种新的页面替换算法综合考虑了缓存块的访问时间和频度因素，命中率更高且实现简单。利用配置工具，用户可指定某个固态硬盘卷用作缓存空间以及某个机械硬盘被缓存。实现的Windows存储卷过滤器驱动程序提供写穿和写回两种运行模式。
+基于数据局部性原理的缓存算法会在冷数据保持不变的前提下，将访问频繁的热数据在系统运行过程中由机械硬盘复制到固态硬盘，再次访问的热数据的读写延迟将会很低。LRU、LFU以及一种论文提出的新的缓存页面替换算法将会被应用。这种新的页面替换算法综合考虑了缓存块的访问时间和访问频度因素，命中率更高且实现简单。利用配置工具，用户可指定某个固态硬盘卷用作缓存空间以及某个机械硬盘被缓存。实现的Windows存储卷过滤器驱动程序提供写穿和写回两种缓存运行模式。
 
-论文提出的方案不仅充分发挥了固态硬盘的性能，同时避免了存储系统由全机械硬盘向全固态硬盘迁移所带来的高昂代价。经测试，由固态硬盘缓存的机械硬盘会有2~3倍的IO性能提升。
+论文实现的缓存系统不仅充分发挥了固态硬盘的性能，同时避免了存储系统向全固态硬盘迁移所带来的高昂成本。经测试，由固态硬盘缓存的机械硬盘会得到2\~3倍的性能提升。
 
 \end{cabstract}
 
 \begin{ckeywords}
-固态磁盘，机械硬盘，混合存储，缓存，数据局部性原理
+固态磁盘，机械硬盘，缓存系统，混合存储，数据局部性原理，缓存页替换算法
 \end{ckeywords}
 
 \begin{cthesistype}
@@ -32,12 +32,12 @@ In order to solve this situation, this paper proposes a HDD-SSD hybrid storage s
 
 Based on algorithm depending on data locality theory, the frequently accessed hot data on HDD will be copied to SSD, while leaving cold data on HDD. The latency will be very low to access hot data again. LRU, LFU and a new proposed cache page replacement algorithm are implemented to distinguish hot and cold data. This new proposed algorithm comprehensively consider time and frequency factors while its hit rate is high and it's easy to implement. Software is implemented as a Windows volume storage filter driver running in two modes: SSD as cache with write through strategy and SSD as cache with write back strategy. User can specify a SSD volume as cache's storage and a HDD volume as a cached device.  
 
-The proposed solution not only take performance advantage of SSD but also avoid costs to transfer all storage from HDD to SSD. With SSD cache, the I/O performance of HDD shows a 2-3x enhancement.
+The proposed solution not only take performance advantage of SSD but also avoid costs to transfer all storage from HDD to SSD. With SSD cache, the I/O performance of HDD shows a 2\~3x enhancement.
 
 \end{eabstract}
 
 \begin{ekeywords}
-SSD, HDD, Hybrid Storage, Cache, Data Locality
+SSD, HDD, Cache, Hybrid Storage, Data Locality, Page Replacement Algorithm
 \end{ekeywords}
 
 \begin{ethesistype}
