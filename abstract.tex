@@ -30,14 +30,14 @@ Solid State Disk (SSD), as a new storage device, has been introduced into data c
 
 In order to solve this situation, this paper proposes a HDD-SSD hybrid storage solution using SSD as cache for HDD to improve HDD's IO performance.
 
-Based on algorithm depending on data locality theory, the frequently accessed hot data on HDD will be copied to SSD, while leaving cold data on HDD. The latency will be very low to access hot data again. LRU, LFU and a new proposed cache page replacement algorithm are implemented to distinguish hot and cold data. This new proposed algorithm comprehensively consider time and frequency factors while its hit rate is high and it's easy to implement. Software is implemented as a Windows volume storage filter driver running in two modes: SSD as cache with write through strategy and SSD as cache with write back strategy. User can specify a SSD volume as cache's storage and a HDD volume as a cached device.
+Based on algorithm depending on data locality theory, the frequently accessed hot data on HDD will be copied to SSD, while leaving cold data on HDD. The latency will be very low to access hot data again. LRU, LFU and a new proposed cache page replacement algorithm are implemented to distinguish hot and cold data. This new proposed algorithm comprehensively considers time and frequency factors while its hit rate is high and it's easy to be implemented. Software is implemented as a Windows volume storage filter driver running in two modes: SSD as cache with write through strategy and SSD as cache with write back strategy. User can specify a SSD volume as cache's storage and a HDD volume as a cached device.
 
 The proposed solution not only take performance advantage of SSD but also avoid costs to transfer all storage from HDD to SSD. With SSD cache, the I/O performance of HDD shows a 2-3x enhancement.
 
 \end{eabstract}
 
 \begin{ekeywords}
-SSD, HDD, Cache, Hybrid Storage, Data Locality, Page Replacement Algorithm
+Cache, Data Locality, HDD, Hybrid Storage, Page Replacement Algorithm, SSD
 \end{ekeywords}
 
 \begin{ethesistype}
