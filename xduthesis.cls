@@ -173,14 +173,14 @@
 \setlength{\textheight}{\paperheight}
 \setlength\marginparwidth{0cm}
 \setlength\marginparsep{0cm}
-\addtolength{\textwidth}{-6cm}
-\setlength{\oddsidemargin}{4cm-1in-\hoffset}
-\setlength{\evensidemargin}{2cm-1in}
+\addtolength{\textwidth}{-5.2cm} % 2.6cm in and out margin
+\setlength{\oddsidemargin}{2.6cm-1in-\hoffset}
+\setlength{\evensidemargin}{2.6cm-1in-\hoffset}
 \setlength{\topmargin}{2cm-1in-\voffset}
 \setlength{\headheight}{20pt}
 \setlength{\headsep}{3cm-1in-\voffset-\topmargin-\headheight}
-\addtolength{\textheight}{-5.0cm}
-\setlength{\footskip}{\paperheight-3cm-\textheight-1cm}
+\addtolength{\textheight}{-5.5cm}
+\setlength{\footskip}{\paperheight-3cm-\textheight-1.75cm}
 \def\xdu@clearpage{%
   \clearpage%
   \if@openright%
@@ -195,22 +195,22 @@
   \let\@evenfoot\@empty}
 \def\ps@xdu@foot@doctor{\vbox{\vskip10pt\rule{\textwidth}{1mm}%
     \vskip1pt\rule{\textwidth}{0.75pt}\vskip1pt%
-    \hbox to\textwidth{\hfil{\xiaowu\ps@xdu@pagefoot}\hfil}}}
-\def\ps@xdu@foot@master{\vbox{\hbox to\textwidth{\hfil{\xiaowu \thepage}\hfil}}}
+    \hbox to\textwidth{\hfil{\wuhao\ps@xdu@pagefoot}\hfil}}}
+\def\ps@xdu@foot@master{\vbox{\hbox to\textwidth{\hfil{\wuhao \thepage}\hfil}}}
 \def\ps@xdu@front{%
-  \def\@oddhead{\vbox{\hbox to\textwidth{\hfil{\xiaowu\leftmark}\hfil}%
+  \def\@oddhead{\vbox{\hbox to\textwidth{\hfil{\wuhao\leftmark}\hfil}%
       \vskip2pt\ifxdu@doctor\rule{\textwidth}{1mm}\vskip1pt\fi%
       \rule{\textwidth}{0.5pt}\vskip0.5pt\rule{\textwidth}{0.5pt}}}%
-  \def\@evenhead{\vbox{\hbox to\textwidth{\hfil{\xiaowu\rightmark}\hfil}%
+  \def\@evenhead{\vbox{\hbox to\textwidth{\hfil{\wuhao\rightmark}\hfil}%
       \vskip2pt\ifxdu@doctor\rule{\textwidth}{1mm}\vskip1bp\fi%
       \rule{\textwidth}{0.5pt}\vskip0.5pt\rule{\textwidth}{0.5pt}}}%
   \def\@oddfoot{\ifxdu@doctor\ps@xdu@foot@doctor\else\ifxdu@master\ps@xdu@foot@master\fi\fi}%
   \def\@evenfoot{\ifxdu@doctor\ps@xdu@foot@doctor\else\ifxdu@master\ps@xdu@foot@master\fi\fi}}%
 \def\ps@xdu@headings{%
-  \def\@oddhead{\vbox{\hbox to\textwidth{\hfil{\xiaowu\leftmark}\hfil}%
+  \def\@oddhead{\vbox{\hbox to\textwidth{\hfil{\wuhao\leftmark}\hfil}%
       \vskip2pt\ifxdu@doctor\rule{\textwidth}{1mm}\vskip1pt\fi%
       \rule{\textwidth}{0.5pt}\vskip0.5pt\rule{\textwidth}{0.5pt}}}%
-  \def\@evenhead{\vbox{\hbox to\textwidth{\hfil{\xiaowu\rightmark}\hfil}%
+  \def\@evenhead{\vbox{\hbox to\textwidth{\hfil{\wuhao\rightmark}\hfil}%
       \vskip2pt\ifxdu@doctor\rule{\textwidth}{1mm}\vskip1bp\fi%
       \rule{\textwidth}{0.5pt}\vskip0.5pt\rule{\textwidth}{0.5pt}}}%
   \def\@oddfoot{\ifxdu@doctor\ps@xdu@foot@doctor\else\ifxdu@master\ps@xdu@foot@master\fi\fi}%
@@ -225,9 +225,9 @@
 \else
 \renewcommand{\chaptermark}[1]{%
   \ifodd\c@page%
-    \markboth{#1}{\xdu@ctitle}%
+    \markboth{#1}{\ps@xdu@pageheader@master}%
   \else%
-    \markboth{\xdu@ctitle}{#1}%
+    \markboth{\ps@xdu@pageheader@master}{#1}%
   \fi}
 \fi
 \renewcommand{\sectionmark}[1]{}
@@ -296,6 +296,10 @@
             {\sihao}{\thesubsection}%
             {1ex}{}
 \titlespacing{\subsection}{2em}{0pt}{0pt}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{2em}{1pt}{1pt}{\xiaosi}}
+\renewcommand\thesubsubsection{\arabic{subsubsection})}
+\titlespacing{\subsubsection}{2em}{0pt}{0pt}
+\setcounter{secnumdepth}{3}
 \renewcommand{\tableofcontents}{%
   \xdu@clearpage%
   \phantomsection%
@@ -413,7 +417,7 @@
     \parbox[t]{\linewidth}{\yihao\hei\bfseries\centering\xdu@xidian@str}\par
     \vspace{56pt}
     \parbox[t]{\linewidth}{\xiaoyi\song\bfseries\centering\xdu@thesis@str}\par
-    \vspace{126pt}
+    \vspace{110pt}
     \parbox[t]{\linewidth}{\erhao\song\bfseries\centering\xdu@ctitle}\par
   \end{center}
 
@@ -605,7 +609,7 @@
   \expandafter \ifx \csname xdu@eabstract\endcsname \relax%
   \else%
     \chapter*{\bfseries\eabstractname}%
-    {\setlength{\parindent}{0cm}\normalsize\par\xdu@eabstract\vskip12bp}%
+    {\normalsize\par\xdu@eabstract\vskip12bp}%
     \setbox0=\hbox{\wuhao\bfseries Keywords:\hspace{0.5em}}%
     \setbox1=\hbox{\wuhao\bfseries Type of Dissertation:\hspace{0.5em}}%
     \noindent\hangindent\wd0\hangafter1%
