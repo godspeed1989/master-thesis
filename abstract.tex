@@ -4,13 +4,13 @@
 
 \begin{cabstract}
 
-作为一种出现相对较晚的存储介质，固态硬盘（SSD）已经逐渐被部署到数据中心的存储阵列中。相比于机械硬盘（HDD），固态硬盘有着体积小、功耗低以及访问速度快的优势。但固态硬盘的高昂价格，使其难以在短时间内完全取代传统的机械硬盘。在许多存储中心，固态硬盘和机械硬盘是同时被部署的，且只有部分存储空间被用作存储。如果能将未使用的固态硬盘空间用作机械硬盘的缓存，系统IO性能将会得到明显的提升。
+作为一种出现相对较晚的存储介质，固态硬盘已经逐渐被部署到数据中心的存储阵列中。相比于机械硬盘，固态硬盘有着体积小、功耗低以及访问速度快的优势。但固态硬盘的高昂价格和相对较低的存储密度，使其难以在短时间内完全取代传统的机械硬盘。在许多存储中心，固态硬盘和机械硬盘目前是被同时部署的，且只有部分存储空间被用作存储。作者认为，如果能将未使用的固态硬盘空间用作机械硬盘的缓存，系统IO性能将会因此而得到提升。
 
-针对固态硬盘和机械硬盘同时存在但性能却没有得到充分发挥这一现状，本论文提出了一种基于SSD的HDD缓存系统解决方案：使用固态硬盘的存储空间作为机械硬盘的缓存，通过实现多种缓存管理算法，提升机械硬盘的IO性能。
+针对固态硬盘和机械硬盘共存于数据中心，但性能却没有得到充分发挥这一现状，本论文提出了一种基于固态硬盘的机械硬盘缓存系统解决方案：该方案使用固态硬盘的存储空间作为机械硬盘的缓存，通过实现多种缓存管理算法，提升存储系统的IO性能。
 
-基于数据局部性原理的缓存管理算法会在冷数据保持不变的前提下，将访问频繁的热数据在系统运行过程中由机械硬盘拷贝到固态硬盘，再次访问热数据的读写延迟将会很低。LRU、LFU以及一种论文提出的缓存页面替换算法将会被应用。这种新的页面替换算法综合考虑了缓存块的访问时间和访问频度因素，命中率更高且实现简单。用户利用配置工具，可指定某个固态硬盘卷用作缓存空间以及某个机械硬盘被缓存。实现的Windows存储卷过滤器驱动程序提供写穿和写回两种缓存运行模式。
+解决方案里基于数据局部性原理的缓存管理算法，在系运行过程中，会在冷数据保持不变的前提下，将访问频繁的热数据由机械硬盘逐块拷贝至固态硬盘，再次访问热数据的读写延迟会因此而很低。LRU、LFU以及一种论文提出的缓存页面替换算法将会被应用。这种新的缓存页面替换算法综合考虑了缓存块的访问时间和访问频度因素，命中率高且算法时间和空间复杂度低。用户利用配置工具，可指定哪个固态硬盘卷用作缓存空间、以及去缓存哪一块机械硬盘。最终实现了的Windows\textregistered存储卷过滤器驱动程序，提供写穿和写回两种缓存运行模式。
 
-论文实现的缓存系统不仅充分发挥了固态硬盘的性能，同时避免了存储系统向全固态硬盘迁移所带来的高昂成本。经测试，经固态硬盘缓存的机械硬盘将会有2-3倍的性能提升。
+论文实现的固态硬盘缓存系统不仅充分发挥出了固态硬盘的性能，同时避免了存储系统向全固态硬盘迁移所带来的高昂成本。经测试，由固态硬盘缓存的机械硬盘将会有2-3倍的读写性能提升。
 
 \end{cabstract}
 
@@ -26,13 +26,13 @@
 
 \begin{eabstract}
 
-Solid State Disk (SSD), as a new storage device, has been introduced into data centre because many of its advantages, such as compact size, low power consumption and high performance compared with Hard Disk Drive (HDD). But due to its relatively high price and low storage density, currently, SSD is mainly used in some high end storage subsystems. Actually, most of times, HDD and SSD exist in a system at the same time, and only a part of SSD's space is used. The IO performance of the storage system will be improved, if a software can configure part of the SSD as common storage while leaving unused part of SSD as a cache for HDD.
+Solid state disk (SSD), as a new kind of storage device, has been introduced into data centre because many of its advantages, such as compact size, low power consumption and high performance compared with traditional hard disk drive (HDD). But due to its relatively high price and low storage density, currently, it is a long run to completely replace hard disk drive with solid state disk. Actually, most of times, HDD and SSD exist in a system at the same time, and only a part of SSD's space is used as storage. Thus, in author's point of view, the IO performance of the storage system will be improved, if a software can configure part of the SSD as common storage while leaving unused part of SSD as a cache for HDD.
 
-In order to solve this situation, this paper proposes a HDD-SSD hybrid storage solution using SSD as cache for HDD to improve HDD's IO performance.
+In order to solve this SSD and HDD coexist but unreleased performance problem, this paper proposes a HDD-SSD hybrid storage solution: using SSD as cache for HDD to improve HDD's IO performance with multiple cache replacement algorithms.
 
-Based on algorithm depending on data locality theory, the frequently accessed hot data on HDD will be copied to SSD, while leaving cold data on HDD. The latency will be very low to access hot data again. LRU, LFU and a new proposed cache page replacement algorithm are implemented to distinguish hot and cold data. This new proposed algorithm comprehensively considers time and frequency factors while its hit rate is high and it's easy to be implemented. Software is implemented as a Windows volume storage filter driver running in two modes: SSD as cache with write through strategy and SSD as cache with write back strategy. User can specify a SSD volume as cache's storage and a HDD volume as a cached device.
+Based on algorithms depending on data locality theory, the frequently accessed hot data on HDD will be copied to SSD gradually, while leaving cold data on HDD. The latency will be very low to access hot data again. LRU, LFU and a new proposed cache page replacement algorithm are implemented to distinguish hot and cold data. This new proposed algorithm comprehensively considers time and frequency factors while its hit rate is relatively high and it's time and space complexity is low. User can specify a SSD volume as cache's storage and a HDD volume as a cached device. Software is implemented as a Windows\textregistered storage volume filter driver running in two modes: SSD as cache with write through strategy and SSD as cache with write back strategy.
 
-The proposed solution not only take performance advantage of SSD but also avoid costs to transfer all storage from HDD to SSD. With SSD cache, the I/O performance of HDD shows a 2-3x enhancement.
+The proposed solution not only take performance advantage of SSD but also avoid costs to transfer all storage medium from HDD to SSD. With SSD cache, the I/O performance of HDD shows a 2-3x enhancement.
 
 \end{eabstract}
 
