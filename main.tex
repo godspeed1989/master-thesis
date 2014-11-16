@@ -10,10 +10,11 @@
 \usepackage{diagbox}
 \usepackage{float}
 \usepackage{enumitem}  % 带方括号的列举环境
+\usepackage{etoolbox}  % 分支判断用
 
-%%%%%%%%%%%%%%%
-% 该文档的具体内容填写请参照‘thesis-master.tex’文档
-%%%%%%%%%%%%%%%
+\newtoggle{blindreview}
+\togglefalse{blindreview}
+\toggletrue{blindreview} %这行注释打开的话按盲审要求排（隐去作者信息）
 
 \begin{document}
 %\layout{}
@@ -24,17 +25,29 @@
 
 % 论文相关信息（封面）
 \subjectcode{10701}
-\studentid{1203121857}
+\subjectcode{10701}
+\iftoggle{blindreview}{
+    \studentid{~}
+}{
+    \studentid{1203121857}
+}
 \catelognumber{TP391.41}
 \secretlevel{公开}
 
 \ctitle{基于SSD的HDD缓存系统研究}
 \etitle{A Research of SSD and HDD Hybrid Storage System}
 
+\iftoggle{blindreview}{
+    \cauthor{~}
+    \eauthor{~}
+    \csupervisor{~}
+    \esupervisor{~}
+}{
 \cauthor{闫林}
 \eauthor{Yan Lin}
 \csupervisor{刘凯~教授}
 \esupervisor{Prof. Liu Kai}
+}
 
 \cfirstdiscipline{计算机科学与技术}
 \efirstdiscipline{Computer Science and Technology}
@@ -80,8 +93,6 @@
 %% 表格索引
 % \listoftables
 
-\input{acknowledgments}
-
 % 参考文献
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,refs}
@@ -93,9 +104,11 @@
 % \begin{appendix}
 %   \input{appendix01}
 % \end{appendix}
-
-\input{achievements}
-
+\iftoggle{blindreview}{
+}{
+    \input{acknowledgments}
+    \input{achievements}
+}
 \end{document}
 
 %% ----------------------------------------------------------------------
