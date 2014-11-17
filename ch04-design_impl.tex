@@ -5,7 +5,7 @@
 \chapter{设计实现}
 \label{cha:mainmatter}
 
-本章介绍了论文提出的缓存系统的实现细节。从缓存系统的整体组成和架构开始，介绍缓存算法的公共接口。接下来，给出了存储卷过滤器驱动程序的实现细节，以及缓存系统是如何实现使用变长缓存块组织缓存空间。最后，给出了应用层用户配置工具提供的控制命令和对应的IOCTL代码。
+本章介绍了论文提出的基于固态硬盘的缓存系统实现细节。从系统的整体架构框架出发，介绍抽象出的缓存算法的公共接口。接下来，给出了存储卷过滤器驱动程序的实现细节，以及缓存系统是如何实现支持使用超长缓存块组织缓存空间。最后，描述了应用层用户配置工具所提供的控制命令和对应的IOCTL代码。
 
 \section{系统整体架构}
 \label{sec:system_overview}
@@ -15,7 +15,7 @@
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/sys-overview}
-\caption{系统结构图}
+\caption{缓存系统结构图}
 \label{fig:sys-overview}
 \end{figure}
 
@@ -28,7 +28,7 @@
 用户配置工具：提供给用户一定的缓存系统控制接口，通过IOCTL命令与驱动程序进行交互，控制过滤器驱动程序和缓存算法的运行状态。
 \end{itemize}
 
-存储卷过滤器驱动程序和缓存逻辑实现模块是系统的核心实现。这两部分虽然在逻辑上分离，但是互相依赖且存在非常多的数据交互。因此为了降低实现难度、减少模块间交互带来的性能损失，这两部分实现于同一个Windows内核模块之中（图\ref{fig:sys-flt-arch}）。
+存储卷过滤器驱动程序和缓存逻辑实现模块是系统的核心部分。这两部分虽然在逻辑上分离，但是互相依赖且存在非常多的数据交互。因此为了降低实现难度、减少模块间交互带来的性能损失，这两部分实现于同一个Windows内核模块之中（图\ref{fig:sys-flt-arch}）。
 
 \begin{figure}[H]
 \centering
@@ -55,7 +55,7 @@ IO请求（IRP）过滤器：过滤存储卷设备所在IO栈上的所有类型I
 \section{缓存算法通用接口}
 \label{sec:cache_interface}
 
-缓存系统实现中包含了LRU、LFU和论文提出的三种缓存页面替换算法。无论哪种页面替换算法所要完成的工作以及提供给过滤器驱动程序的接口都是一致的。为了减少系统实现中的冗余代码，论文实现过程中将缓存算法的通用接口进行了抽象，每种替换算法只要按照通用接口进行实现，系统代码就可以通过C语言宏开关的方式方便切换缓存替换算法。
+缓存系统实现中包含了LRU、LFU和论文提出的缓存页面替换算法。无论哪种页面替换算法所要达到的目的，以及提供给过滤器驱动程序的接口都一致。为了减少系统实现中的冗余代码，论文实现过程中将缓存算法的通用接口进行了抽象，每种替换算法只要按照通用接口进行实现，系统代码就可以通过C语言宏开关的方式方便切换缓存替换算法。
 
 通用接口分为内部和外部两类接口函数。外部接口将会被暴露给过滤器驱动程序，完成缓存系统的功能；外部函数接口的实现代码中会调用内部函数接口，虽然不同替换算法的替换策略不同，但实现中页面替换的逻辑流程仍然是相同的，因此可以为不同的算法抽象出相同的内部函数接口，减少冗余代码、方便缓存系统进行缓存替换算法间的切换。
 
@@ -99,41 +99,44 @@ Size记录了缓存池内所包含的存储块总数，即缓存池的总空间�
 
 外部函数接口被暴露给过滤器驱动程序，实现缓存系统的功能。
 
-\begin{itemize}
-
-\item InitCachePool
-\\初始化缓存存储块池结构体，申请存储池空间。
+\subsubsection{InitCachePool}
+初始化缓存存储块池结构体，申请存储池空间。
 \begin{lstlisting}
 bool InitCachePool (
     PCACHE_POOL CachePool
 );
 \end{lstlisting}
+
 传入缓存池结构体指针。初始化成功返回TRUE，否则返回FALSE。
-\\具体步骤为：
+
+具体步骤为：
 \begin{enumerate}
 \item 初始化缓存池结构体的内部变量。
 \item 初始化存储访问层和缓存存储设备。
 \item 初始化缓存块索引数据结构B+树。
 \item 初始化缓存页面替换算法所用到的数据结构。
 \end{enumerate}
+
 任何一步出现错误都撤回之前成功的操作，返回FALSE。所有步骤都成功才返回TRUE。
 
-\item DestroyCachePool
-\\销毁缓存存储块池，释放存储空间。
+\subsubsection{DestroyCachePool}
+销毁缓存存储块池，释放存储空间。
 \begin{lstlisting}
 void DestroyCachePool (
     PCACHE_POOL CachePool
 );
 \end{lstlisting}
+
 具体步骤为：
+
 \begin{enumerate}
 \item 销毁缓存页面替换算法所用到的数据结构。
 \item 销毁缓存块索引数据结构B+树。
 \item 销毁存储访问层和停止缓存存储设备。
 \end{enumerate}
 
-\item QueryAndCopyFromCachePool
-\\查询缓存池中的数据是否命中偏移为Offset，长度为Length的主存储设备读请求。
+\subsubsection{QueryAndCopyFromCachePool}
+查询缓存池中的数据是否命中偏移为Offset，长度为Length的主存储设备读请求。
 \begin{lstlisting}
 bool QueryAndCopyFromCachePool (
     PCACHE_POOL CachePool,
@@ -142,8 +145,10 @@ bool QueryAndCopyFromCachePool (
     ULONG Length
 );
 \end{lstlisting}
+
 传入缓存池结构体指针，数据位置和数据指针。如果完全命中，拷贝数据到Buffer，返回TRUE；如果不命中，返回FALSE。
-\\具体步骤为：
+
+具体步骤为：
 \begin{enumerate}
 \item 检测读请求的起始和末尾部分是否存在不对齐的情况。
 \item 计算完成该读请求所需要的所有缓存块。
@@ -153,8 +158,8 @@ bool QueryAndCopyFromCachePool (
 \item 函数结束，返回TRUE。
 \end{enumerate}
 
-\item QueryAndWriteToCachePool
-\\查询缓存池中的数据是否命中偏移为Offset，长度为Length的主存储设备写请求。
+\subsubsection{QueryAndWriteToCachePool}
+查询缓存池中的数据是否命中偏移为Offset，长度为Length的主存储设备写请求。
 \begin{lstlisting}
 bool QueryAndWriteToCachePool (
     PCACHE_POOL CachePool,
@@ -163,8 +168,10 @@ bool QueryAndWriteToCachePool (
     ULONG Length
 );
 \end{lstlisting}
+
 传入缓存池结构体指针，数据位置和数据指针。如果完全命中，使用Buffer中的数据更新缓存池中的数据，返回TRUE；如果不命中，返回FALSE。
-\\具体步骤为：
+
+具体步骤为：
 \begin{enumerate}
 \item 检测写请求的起始和末尾部分是否存在不对齐的情况。
 \item 计算此次写操作所涉及到的所有缓存块。
@@ -174,8 +181,8 @@ bool QueryAndWriteToCachePool (
 \item 函数结束，返回TRUE。
 \end{enumerate}
 
-\item ReadUpdataCachePool
-\\使用缓存页面替换算法，使用从HDD读出的数据更新缓存池。
+\subsubsection{ReadUpdataCachePool}
+使用缓存页面替换算法，使用从HDD读出的数据更新缓存池。
 \begin{lstlisting}
 void ReadUpdataCachePool (
     PCACHE_POOL CachePool,
@@ -184,21 +191,24 @@ void ReadUpdataCachePool (
     ULONG Length
 );
 \end{lstlisting}
+
 传入缓存池结构体指针，数据位置和数据指针。Buffer中是从HDD读出的偏移为Offset，长度为Length的数据。如果缓存池还有空间，加入新缓存块到缓存池；否则使用缓存页面替换算法找出缓存块进行替换。
-\\具体步骤为：
+
+具体步骤为：
 \begin{enumerate}
 \item 检测HDD数据的起始和末尾部分是否存在不对齐的情况。
 \item 逐一处理HDD数据所涉及的缓存块。具体步骤见图\ref{fig:read-update-pool}，其中的虚线部分只有在写回模式时才会执行。
 \end{enumerate}
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/read-update-pool}
-\caption{使用读数据更新缓存池}
+\caption{读数据更新缓存池逻辑}
 \label{fig:read-update-pool}
 \end{figure}
 
-\item WriteUpdataCachePool
-\\使用缓存页面替换算法，利用已经写入HDD的数据更新缓存池。
+\subsubsection{WriteUpdataCachePool}
+使用缓存页面替换算法，利用已经写入HDD的数据更新缓存池。
 \begin{lstlisting}
 void WriteUpdataCachePool (
     PCACHE_POOL CachePool,
@@ -207,46 +217,48 @@ void WriteUpdataCachePool (
     ULONG Length
 );
 \end{lstlisting}
+
 传入缓存池结构体指针，数据位置和数据指针。Buffer中的数据是偏移为Offset，长度为Length的最新HDD数据。为保证数据的一致性，需要更新缓存中与HDD上最新数据（偏移为Offset，长度为Length）有重叠部分的数据。
+
+具体步骤为：
 \begin{enumerate}
 \item 检测HDD数据的起始和末尾部分是否存在不对齐的情况。
 \item 逐一处理HDD数据所涉及的缓存块。具体步骤见图\ref{fig:write-update-pool}，其中的虚线部分只有在写回模式时才会执行。
 \end{enumerate}
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/write-update-pool}
-\caption{使用写数据更新缓存池}
+\caption{写数据更新缓存池逻辑}
 \label{fig:write-update-pool}
 \end{figure}
 
-\item IsEmpty
-\\判断缓存存储块池是否为空。
+\subsubsection{IsEmpty}
+判断缓存存储块池是否为空。
 \begin{lstlisting}
 bool IsEmpty (
     PCACHE_POOL CachePool
 );
 \end{lstlisting}
+
 传入缓存池结构体指针。如果为空返回TURE；否则返回FALSE。
 
-\item IsFull
-\\判断缓存存储块池是否存在空闲缓存块。
+\subsubsection{IsFull}
+判断缓存存储块池是否存在空闲缓存块。
 \begin{lstlisting}
 bool IsFull (
     PCACHE_POOL CachePool
 );
 \end{lstlisting}
-传入缓存池结构体指针。如果已满返回TURE；否则返回FALSE。
 
-\end{itemize}
+传入缓存池结构体指针。如果已满返回TURE；否则返回FALSE。
 
 \subsection{内部函数接口}
 
 内部函数接口在外部接口函数的实现代码中被调用。虽然不同缓存算法的替换策略不同，但总体逻辑流程相同，因此可为不同的算法抽象出相同的内部函数接口，方便在缓存替换算法之间切换。
 
-\begin{itemize}
-
-\item \_QueryPoolByIndex
-\\查询缓存存储块池中是否存在HDD数据索引为Index的缓存块。
+\subsubsection{\_QueryPoolByIndex}
+查询缓存存储块池中是否存在HDD数据索引为Index的缓存块。
 \begin{lstlisting}
 bool _QueryPoolByIndex (
     PCACHE_POOL CachePool,
@@ -254,19 +266,21 @@ bool _QueryPoolByIndex (
     PCACHE_BLOCK *ppBlock
 );
 \end{lstlisting}
+
 传入缓存池结构体指针和HDD数据块索引。如果缓存命中，将该缓存块的指针赋值给ppBlock，返回TRUE；否则返回FALSE。不同的缓存页面替换算法使用了不同的缓存块组织结构，缓存池查询函数的实现也不相同，但是本质上都是在查询索引B+树上是否存在有相应的节点。
 
-\item \_\_GetFreeBlock
-\\从缓存存储块池中获取一个未使用的缓存块。
+\subsubsection{\_\_GetFreeBlock}
+从缓存存储块池中获取一个未使用的缓存块。
 \begin{lstlisting}
 PCACHE_BLOCK __GetFreeBlock (
     PCACHE_POOL CachePool
 );
 \end{lstlisting}
+
 传入缓存池结构体指针。如果成功获取则返回指向空闲缓存块的指针，缓存池空闲缓存块计数减1；否则返回NULL。函数首先检查缓存池是否存在有空闲空间，如果存在，创建CACHE\_BLOCK结构体并从缓存存储设备上申请空间，返回结构体指针；否则返回NULL。
 
-\item \_AddNewBlockToPool
-\\加入新的缓存块到缓存池中。
+\subsubsection{\_AddNewBlockToPool}
+加入新的缓存块到缓存池中。
 \begin{lstlisting}
 PCACHE_BLOCK _AddNewBlockToPool (
     PCACHE_POOL CachePool,
@@ -275,10 +289,11 @@ PCACHE_BLOCK _AddNewBlockToPool (
     BOOLEAN Modified
 );
 \end{lstlisting}
+
 传入缓存池结构体指针，新缓存块数据及对应的HDD索引。当存储池存在空闲空间时，通过\_\_GetFreeBlock函数获取一个空闲的缓存块，索引赋值为Index，数据更新为Data所指向的数据，不同的缓存页面替换算法的实现会将缓存块加入到不同的缓存块组织结构中。Modified标记传入的数据是读类型还是写类型，使用写回策略时，包含写类型数据的缓存块需要加入到回写队列以便进行延迟回写。如果成功加入缓存池，返回新创建的缓存块指针；否则返回NULL。
 
-\item \_FindBlockToReplace
-\\从不存在空闲空间的缓存池中找出一个可替换的缓存块。
+\subsubsection{\_FindBlockToReplace}
+从不存在空闲空间的缓存池中找出一个可替换的缓存块。
 \begin{lstlisting}
 PCACHE_BLOCK _FindBlockToReplace (
     PCACHE_POOL CachePool,
@@ -287,19 +302,19 @@ PCACHE_BLOCK _FindBlockToReplace (
     BOOLEAN Modified
 );
 \end{lstlisting}
+
 传入缓存池结构体指针，新缓存块数据及对应的HDD索引。该函数调用的前提是缓存块存储池已经不存在空闲空间。函数利用缓存页面替换算法从缓存池中选取出一个可替换的缓存块进行数据的替换。Modified标记传入的数据是读类型还是写类型，使用写回策略时，包含写类型数据的缓存块需要加入到回写队列以便进行延迟回写。如果替换成功，返回数据被替换的缓存块指针；否则返回NULL。
 
-\item \_IncreaseBlockReference
-\\增加缓存块的访问计数。
+\subsubsection{\_IncreaseBlockReference}
+增加缓存块的访问计数。
 \begin{lstlisting}
 VOID _IncreaseBlockReference (
     PCACHE_POOL CachePool,
     PCACHE_BLOCK pBlock
 );
 \end{lstlisting}
-传入缓存池结构体指针和缓存块指针。当某个缓存块被访问时，告知告知缓存页面替换算法该缓存块的访问计数增加1，以进行页面替换算法内部数据结构的更新。
 
-\end{itemize}
+传入缓存池结构体指针和缓存块指针。当某个缓存块被访问时，告知告知缓存页面替换算法该缓存块的访问计数增加1，以进行页面替换算法内部数据结构的更新。
 
 %% ----------------------------------------------------------------------
 
@@ -315,7 +330,7 @@ VOID _IncreaseBlockReference (
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.2\linewidth]{./graph/df-default}
+\includegraphics[width=0.15\linewidth]{./graph/df-default}
 \caption{默认分发函数}
 \label{fig:df-default}
 \end{figure}
@@ -328,7 +343,7 @@ Windows操作系统允许传递SystemPowerState和DevicePowerState两种类型�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.3\linewidth]{./graph/df-power}
+\includegraphics[width=0.25\linewidth]{./graph/df-power}
 \caption{电源事件分发函数}
 \label{fig:df-power}
 \end{figure}
@@ -373,8 +388,8 @@ PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\linewidth]{./graph/df-rw-thread}
-\caption{读写处理内核线程}
+\includegraphics[width=0.6\linewidth]{./graph/df-rw-thread}
+\caption{处理读写请求的内核线程}
 \label{fig:df-rw-thread}
 \end{figure}
 
@@ -383,35 +398,37 @@ PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）�
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\linewidth]{./graph/df-proc-read}
-\caption{读写线程读请求处理逻辑}
+\caption{读写线程的读请求处理逻辑}
 \label{fig:df-proc-read}
 \end{figure}
 
-图\ref{fig:df-proc-write}展现了写请求的处理逻辑。写请求和读请求的处理都存在更新SSD缓存池的操作，但实现的细节并不相同：读请求直接使用读请求获得的HDD数据更新SSD；写请求依据回写策略的不同又可分为写穿（Write Through）和写回（Write Back）两类。写穿策略会先将写请求的数据应用于HDD，再去更新SSD。写回策略直接使用写请求的数据更新SSD，回写线程负责将缓存中的脏数据同步回HDD。这两种回写策略在\ref{sec:wb_strategy}节被详细描述。
+图\ref{fig:df-proc-write}展现了写请求的处理逻辑。写请求和读请求的处理都存在更新SSD缓存池的操作，但实现的细节并不相同：读请求直接使用读请求获得的HDD数据更新SSD；写请求依据回写策略的不同又可分为写穿（Write Through）和写回（Write Back）两类。写穿策略会先将写请求的数据先应用于HDD，再去更新SSD。写回策略直接使用写请求的数据更新SSD，回写线程负责将缓存中的脏数据同步回HDD。这两种回写策略在\ref{sec:wb_strategy}节被详细描述。
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\linewidth]{./graph/df-proc-write}
-\caption{读写线程写请求处理逻辑}
+\caption{读写线程的写请求处理逻辑}
 \label{fig:df-proc-write}
 \end{figure}
 
 %% ----------------------------------------------------------------------
 
-\section{可变长缓存块的处理}
+\section{对超长缓存块的支持}
 
 硬盘的最小存储单元是扇区，大小为512字节，因此Windows的IO管理器产生的读写请求会以512字节对齐。缓存系统中，缓存空间和主存储空间一般也会以512字节的大小进行划分。
 
-应用程序产生的磁盘读写操作请求的大小可能会达到几兆字节，对于这种请求，需要以512字节进行分段，多次查询缓存池，对系统性能的影响较大。为了提升缓存系统性能，本论文实现了缓存块大小的可变长度机制：读写请求由IO管理器产生，512字节大小对齐无法改变；缓存空间使用512字节的倍数大小进行划分。这么做对于较大的读写请求，一方面可以减少分段的个数，降低多次查询缓存池对性能的影响；另一方面从缓存池内向外拷贝数据时，每次拷贝的数据量变大，拷贝效率更高。
+但是，应用程序产生的磁盘读写请求操作的大小可能会达到几兆字节，对于这种请求，如果还以512字节进行划分，需要多次查询缓存池，对系统的性能影响很大。为了提升缓存系统性能，本论文实现的缓存系统支持超长缓存块：由IO管理器产生的，512字节对齐的读写请求无法改变；缓存空间使用512字节的倍数大小进行划分。这么做对于较大的读写请求，一方面可以减少分段的个数，降低多次查询缓存池对性能的影响；另一方面从缓存池内向外拷贝数据时，每次拷贝的数据量变大，拷贝效率更高。
 
-但是，由于读写请求的大小和缓存空间的划分不是以相同字节数目对齐，这就需要在查询缓存池和拷贝缓存数据时解决读写请求不对齐的问题。如图\ref{fig:vsize-cache-block}所示，不对齐部分只可能出现在读写请求的开头（f\_broken）和结尾（e\_broken）部分，只要对这部分数据进行特殊处理，其余部分按对齐方式正常处理即可。
+如果读写请求的大小和缓存空间的划分不是以相同字节数目对齐，就需要在查询缓存池和拷贝缓存数据时解决读写数据不对齐的问题。如图\ref{fig:vsize-cache-block}所示，不对齐部分只可能出现在读写请求的开头（f\_broken）和结尾（e\_broken）部分。只需要特殊处理这两部分数据，其余部分按对齐方式正常处理即可。
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\linewidth]{./graph/vsize-cache-block}
-\caption{读写大小和缓存划分不对齐的情况}
+\caption{请求长度与缓存块大小不对齐的情况}
 \label{fig:vsize-cache-block}
 \end{figure}
+
+经实验验证，缓存块大小为4KB（8*512）时，性能提升效果最明显。
 
 下面分别给出了读、写请求不对齐时缓存命中与不命中情况的处理方式：
 
@@ -434,13 +451,13 @@ PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）�
 \begin{enumerate}
 \item 检查对齐部分所属的数据块是否在缓存池中缓存。
 \item 检查f\_broken和e\_broken部分的所属的数据块是否在缓存池中缓存。
-\item 如果完全命中，在向缓存池中写入数据时，需要注意在写入f\_broken和e\_broken部分数据时的偏移和长度。
+\item 如果完全命中，在向缓存池中写入数据时，需要注意在写入f\_broken和e\_broken部分所属缓存块的偏移和长度。
 \end{enumerate}
 
 \item 写请求未命中的处理
 \begin{enumerate}
 \item 使用对齐部分所属的命中数据块更新缓存池。
-\item 检查f\_broken和e\_broken部分的所属的数据块命中。如果命中，写入并注意f\_broken和e\_broken部分写入数据时的偏移和长度；未命中，当回写策略是写回（Write Back）模式时，由于f\_broken和e\_broken部分的数据无法构成完整的缓存数据块，故而需要将这两部分数据直接写入主存储器。
+\item 检查f\_broken和e\_broken部分所属的数据块是否命中。如果命中，写入并注意f\_broken和e\_broken部分写入数据时的偏移和长度；未命中，当回写策略是写回（Write Back）模式时，由于f\_broken和e\_broken部分的数据无法构成完整的缓存数据块，故而需要将这两部分数据直接写入主存储器。
 \end{enumerate}
 
 \end{itemize}
@@ -453,10 +470,10 @@ PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）�
 系统提供了命令行的用户配置工具，在用户层和内核层的驱动程序进行交互。通过驱动设备对象提供的IOCTL命令，来完成两个方面的功能：
 \begin{enumerate}
 \item 配置缓存系统的运行状态。包括启动、停止和设置作为缓存的卷。
-\item 获得缓存系统的统计数据。获得IO统计信息，如读写次数和命中率。
+\item 获得缓存系统的统计数据。获得IO统计信息，如缓存使用、读写次数和命中率。
 \end{enumerate}
 
-配置工具启动后，依据用户输入的命令完成相应操作。工具提供如下几种种命令：
+配置工具启动后，依据用户输入的命令完成相应操作。工具提供有如下命令：
 
 \begin{itemize}
 \item start
