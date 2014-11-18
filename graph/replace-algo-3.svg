@@ -9,14 +9,27 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="521.28125"
-   height="314.53125"
+   width="521.53137"
+   height="296.41647"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.48.4 r9939"
    sodipodi:docname="replace-algo-3.svg">
   <defs
      id="defs4">
+    <marker
+       inkscape:stockid="TriangleOutL"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="TriangleOutL"
+       style="overflow:visible">
+      <path
+         id="path4009"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         transform="scale(0.8)" />
+    </marker>
     <marker
        inkscape:stockid="Arrow1Lend"
        orient="auto"
@@ -39,17 +52,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="274.38421"
-     inkscape:cy="197.18577"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="233.54508"
+     inkscape:cy="151.30251"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1270"
-     inkscape:window-height="749"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
-     inkscape:window-maximized="1"
+     inkscape:window-width="1012"
+     inkscape:window-height="684"
+     inkscape:window-x="100"
+     inkscape:window-y="100"
+     inkscape:window-maximized="0"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -61,8 +74,8 @@
        visible="true"
        enabled="true"
        snapvisiblegridlinesonly="true"
-       originx="-59.21875px"
-       originy="-685.75px" />
+       originx="-59.343983px"
+       originy="-704.03128px" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -80,7 +93,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-59.21875,-52.080933)">
+     transform="translate(-59.343983,-51.914446)">
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 60,122.36218 0,40 40,0 0,-40 z"
@@ -132,7 +145,7 @@
          id="tspan3842"
          x="151.54688"
          y="192.17468"
-         style="font-size:24px">热链</tspan></text>
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">热链</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -144,55 +157,55 @@
          id="tspan3842-1"
          x="431.96875"
          y="192.36218"
-         style="font-size:24px">冷链</tspan></text>
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">冷链</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="58"
-       y="70.362183"
+       y="72.362183"
        id="text3840-4"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3842-8"
          x="58"
-         y="70.362183"
-         style="font-size:24px">热端</tspan></text>
+         y="72.362183"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">热端</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="251.54688"
-       y="70.362183"
+       y="72.362183"
        id="text3840-8"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3842-2"
          x="251.54688"
-         y="70.362183"
-         style="font-size:24px">冷端</tspan></text>
+         y="72.362183"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">冷端</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="338"
-       y="70.362183"
+       y="72.362183"
        id="text3840-4-4"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3842-8-5"
          x="338"
-         y="70.362183"
-         style="font-size:24px">热端</tspan></text>
+         y="72.362183"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">热端</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="531.54688"
-       y="70.362183"
+       y="72.362183"
        id="text3840-8-5"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3842-2-1"
          x="531.54688"
-         y="70.362183"
-         style="font-size:24px">冷端</tspan></text>
+         y="72.362183"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">冷端</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -320,101 +333,101 @@
          y="111.77234">2</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 100,282.36218 0,40 40,0 0,-40 z"
+       d="m 100,276.36218 0,40 40,0 0,-40 z"
        id="path3757-1-82"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 140,282.36218 0,40 40,0 0,-40 z"
+       d="m 140,276.36218 0,40 40,0 0,-40 z"
        id="path3757-7-4"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 180,282.36218 0,40 40,0 0,-40 z"
+       d="m 180,276.36218 0,40 40,0 0,-40 z"
        id="path3757-1-4-5"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 220,282.36218 0,40 40,0 0,-40 z"
+       d="m 220,276.36218 0,40 40,0 0,-40 z"
        id="path3757-0-5"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 260,282.36218 0,40 40,0 0,-40 z"
+       d="m 260,276.36218 0,40 40,0 0,-40 z"
        id="path3757-1-9-1"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="151.54688"
-       y="352.17468"
+       y="346.17468"
        id="text3840-2"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3842-7"
          x="151.54688"
-         y="352.17468"
-         style="font-size:24px">热链</tspan></text>
+         y="346.17468"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">热链</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="431.96875"
-       y="352.36218"
+       y="346.36218"
        id="text3840-5-6"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3842-1-1"
          x="431.96875"
-         y="352.36218"
-         style="font-size:24px">冷链</tspan></text>
+         y="346.36218"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">冷链</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="58"
-       y="230.36218"
+       x="60"
+       y="228.36218"
        id="text3840-4-42"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3842-8-3"
-         x="58"
-         y="230.36218"
-         style="font-size:24px">热端</tspan></text>
+         x="60"
+         y="228.36218"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">热端</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="251.54688"
-       y="230.36218"
+       x="253.54688"
+       y="228.36218"
        id="text3840-8-2"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3842-2-2"
-         x="251.54688"
-         y="230.36218"
-         style="font-size:24px">冷端</tspan></text>
+         x="253.54688"
+         y="228.36218"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">冷端</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="338"
-       y="230.36218"
+       x="340"
+       y="228.36218"
        id="text3840-4-4-1"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3842-8-5-6"
-         x="338"
-         y="230.36218"
-         style="font-size:24px">热端</tspan></text>
+         x="340"
+         y="228.36218"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">热端</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="531.54688"
-       y="230.36218"
+       x="533.54688"
+       y="228.36218"
        id="text3840-8-5-8"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3842-2-1-5"
-         x="531.54688"
-         y="230.36218"
-         style="font-size:24px">冷端</tspan></text>
+         x="533.54688"
+         y="228.36218"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Adobe Song Std;-inkscape-font-specification:Adobe Song Std Light">冷端</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 300.29297,71.772339 0,40.000001 40,0 0,-40.000001 z"
@@ -432,8 +445,8 @@
          x="320"
          y="102.36218">G</tspan></text>
     <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
-       d="m 320,112.36218 0,30 20,0"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+       d="m 319.93922,112.3014 0,30.10726 15.44029,0"
        id="path3297"
        inkscape:connector-curvature="0" />
     <path
@@ -465,192 +478,192 @@
          y="111.77234">1</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 420,282.36218 0,40 40,0 0,-40 z"
+       d="m 420,276.36218 0,40 40,0 0,-40 z"
        id="path3757-4-8"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 460,282.36218 0,40 40,0 0,-40 z"
+       d="m 460,276.36218 0,40 40,0 0,-40 z"
        id="path3757-1-8-8"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="439.70703"
-       y="310.95203"
+       y="304.95203"
        id="text3117-2"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3119-4"
          x="439.70703"
-         y="310.95203">E</tspan></text>
+         y="304.95203">E</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="438.90234"
-       y="271.77234"
+       y="265.77234"
        id="text3009-5"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3011-5"
          x="438.90234"
-         y="271.77234">1</tspan></text>
+         y="265.77234">1</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="479.71875"
-       y="310.95203"
+       y="304.95203"
        id="text3117-1-17"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3119-7-1"
          x="479.71875"
-         y="310.95203">D</tspan></text>
+         y="304.95203">D</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="479.19531"
-       y="271.77234"
+       y="265.77234"
        id="text3009-4-15"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3011-0-27"
          x="479.19531"
-         y="271.77234">2</tspan></text>
+         y="265.77234">2</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 500,282.36218 0,40 40,0 0,-40 z"
+       d="m 500,276.36218 0,40 40,0 0,-40 z"
        id="path3757-1-8-9-6"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="519.88281"
-       y="310.95203"
+       y="304.95203"
        id="text3117-1-4-1"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3119-7-8-4"
          x="519.88281"
-         y="310.95203">C</tspan></text>
+         y="304.95203">C</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="519.19531"
-       y="271.77234"
+       y="265.77234"
        id="text3009-4-8-2"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3011-0-2-3"
          x="519.19531"
-         y="271.77234">1</tspan></text>
+         y="265.77234">1</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 540,282.36218 0,40 40,0 0,-40 z"
+       d="m 540,276.36218 0,40 40,0 0,-40 z"
        id="path3757-1-8-4-2"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="559.77148"
-       y="310.95203"
+       y="304.95203"
        id="text3117-1-5-2"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3119-7-5-1"
          x="559.77148"
-         y="310.95203">B</tspan></text>
+         y="304.95203">B</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="559.19531"
-       y="271.77234"
+       y="265.77234"
        id="text3009-4-1-6"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3011-0-7-8"
          x="559.19531"
-         y="271.77234">2</tspan></text>
+         y="265.77234">2</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 380,282.36218 0,40 40,0 0,-40 z"
+       d="m 380,276.36218 0,40 40,0 0,-40 z"
        id="path3757-1-8-1-1-5"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="400.01172"
-       y="310.95203"
+       y="304.95203"
        id="text3117-1-1-74-7"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3119-7-52-0-6"
          x="400.01172"
-         y="310.95203">F</tspan></text>
+         y="304.95203">F</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="399.19531"
-       y="271.77234"
+       y="265.77234"
        id="text3009-4-7-9-1"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3011-0-6-4-8"
          x="399.19531"
-         y="271.77234">1</tspan></text>
+         y="265.77234">1</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 340,282.36218 0,40 40,0 0,-40 z"
+       d="m 340,276.36218 0,40 40,0 0,-40 z"
        id="path3757-1-8-1-1-5-1"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="360.01172"
-       y="310.95203"
+       y="304.95203"
        id="text3117-1-1-74-7-7"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3119-7-52-0-6-4"
          x="360.01172"
-         y="310.95203">G</tspan></text>
+         y="304.95203">G</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="359.19531"
-       y="271.77234"
+       y="265.77234"
        id="text3009-4-7-9-1-0"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3011-0-6-4-8-9"
          x="359.19531"
-         y="271.77234">1</tspan></text>
+         y="265.77234">1</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 60,282.36218 0,40 40,0 0,-40 z"
+       d="m 60,276.36218 0,40 40,0 0,-40 z"
        id="path3757-1-8-1-4"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="80.011719"
-       y="310.95203"
+       y="304.95203"
        id="text3117-1-1-8"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3119-7-52-8"
          x="80.011719"
-         y="310.95203">A</tspan></text>
+         y="304.95203">A</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="79.195313"
-       y="271.77234"
+       y="265.77234"
        id="text3009-4-7-2"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3011-0-6-45"
          x="79.195313"
-         y="271.77234">0</tspan></text>
+         y="265.77234">0</tspan></text>
   </g>
 </svg>

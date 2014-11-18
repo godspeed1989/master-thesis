@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="365.47336"
-   height="548.66876"
+   width="365.40393"
+   height="544.31812"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -102,9 +102,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="153.76189"
-     inkscape:cy="239.5295"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="137.10908"
+     inkscape:cy="208.77559"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -125,7 +125,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -133,17 +133,17 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-158.7071,-258.67708)">
+     transform="translate(-158.77652,-262.95832)">
     <rect
-       style="fill:none;stroke:#000000;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:0.86281502;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect2985"
-       width="151.42857"
-       height="78.571426"
-       x="184.60522"
-       y="-337.7485"
+       width="120.25104"
+       height="73.657845"
+       x="202.96353"
+       y="-337.04758"
        transform="scale(1,-1)" />
     <rect
-       style="fill:none;stroke:#000000;stroke-width:0.84519893;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:1.04451549;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3023"
        width="86.934738"
        height="86.934738"
@@ -151,8 +151,8 @@
        y="496.61578"
        transform="matrix(0.83661583,-0.54779006,0.83661583,0.54779006,0,0)" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:none;marker-end:url(#EmptyTriangleOutL)"
-       d="m 260.78006,337.7485 0.41396,35.31215"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-end:url(#TriangleOutL)"
+       d="m 261.49121,337.71607 0.41732,30.63166"
        id="path3039"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0" />
@@ -160,7 +160,7 @@
        xml:space="preserve"
        id="flowRoot5199"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       transform="translate(79.098808,204.39537)"><flowRegion
+       transform="translate(83.098808,208.39537)"><flowRegion
          id="flowRegion5201"><rect
            id="rect5203"
            width="132.14285"
@@ -189,7 +189,7 @@
        height="78.571426"
        width="151.42857"
        id="use5209-2"
-       style="fill:none;stroke:#000000;stroke-opacity:1" />
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -215,7 +215,7 @@
          y="428.97418"
          style="font-size:24px">Hit?</tspan></text>
     <rect
-       style="fill:none;stroke:#000000;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect2985-9-1"
        width="151.42857"
        height="78.571426"
@@ -236,13 +236,13 @@
            style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans" /></flowRegion><flowPara
          id="flowPara5543-9">Mark</flowPara><flowPara
          id="flowPara5202">Modified</flowPara></flowRoot>    <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-mid:none;marker-end:url(#EmptyTriangleOutL-8)"
-       d="m 261.5365,466.7932 -0.17295,38.82115"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-mid:none;marker-end:url(#TriangleOutL)"
+       d="m 261.53746,466.76958 -0.17397,35.03309"
        id="path5599"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0" />
     <rect
-       style="fill:none;stroke:#000000;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect2985-9-1-2"
        width="151.42857"
        height="78.571426"
@@ -275,17 +275,17 @@
          y="414.47772"
          style="font-size:24px">N</tspan></text>
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.98363811px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#EmptyTriangleOutL)"
-       d="m 334.99182,420.21115 110.73065,0 0,84.30207"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+       d="m 334.98193,420.20126 110.74975,0 0,80.93193"
        id="path3202"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#EmptyTriangleOutL)"
-       d="m 446.9925,584.66155 0,78.28683 -110.10663,0"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+       d="m 447.00419,584.64986 0,78.30908 -104.98712,0"
        id="path5204"
        inkscape:connector-curvature="0" />
     <rect
-       style="opacity:0.98000004;fill:none;stroke:#000000;stroke-width:1.13884759;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="opacity:0.98000004;fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect2985-9-1-4"
        width="196.7466"
        height="78.432579"
@@ -293,13 +293,13 @@
        y="-806.77643"
        transform="scale(1,-1)" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#EmptyTriangleOutL-8-8)"
-       d="m 259.85714,585.21932 0,35.71429"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+       d="m 259.85714,585.18944 0,31.33948"
        id="path5816"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#EmptyTriangleOutL-8-8)"
-       d="m 258.57143,699.50504 0,27.85714"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#TriangleOutL)"
+       d="m 258.57143,699.46771 0,23.63193"
        id="path6008"
        inkscape:connector-curvature="0" />
     <flowRoot

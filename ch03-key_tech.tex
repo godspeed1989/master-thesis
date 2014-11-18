@@ -143,8 +143,6 @@ LFU算法需要为每个缓存块设置一个记录访问频度的区域，以�
 
 上述两种缓存页面替换算法在选择缓存块时，都存在只考虑最后一次的访问时间或使用频度等某一项因素进行评估的缺陷。为了克服这种缺陷，本论文提出了一种综合考虑访问时间和使用频度的替换算法，该算法实现简单，且测试结果表明命中率优于只基于访问时间和只基于访问频度的替换算法。以下是该算法的缓存块组织方式和处理逻辑：
 
-\begin{itemize}
-\item
 替换算法使用冷、热两个链表管理缓存块（图\ref{fig:replace-algo-1}），初始状态下两个链表均为空，代表缓存中还没有开始缓存数据。类似于LRU，每个链表都存在冷、热两端，缓存块在链表中的位置代表了缓存块最近一次访问的时间。两个链表所能管理的所有空间代表了缓存的总容量。
 \begin{figure}[H]
 \centering
@@ -153,7 +151,6 @@ LFU算法需要为每个缓存块设置一个记录访问频度的区域，以�
 \label{fig:replace-algo-1}
 \end{figure}
 
-\item
 当冷链表不为满时，新到来的缓存块首先会被加入到冷链表的热端，在运行过程中会统计每个缓存块访问的次数。如果某个缓存块被访问，该缓存块无论在冷链还是热链都会被移动到移动到链表的热端，并且访问计数会被加1。图\ref{fig:replace-algo-2}展示了缓存块以A->B->C->D->E的字母表顺序加入后的缓存的组织状态状态。
 \begin{figure}[H]
 \centering
@@ -162,7 +159,6 @@ LFU算法需要为每个缓存块设置一个记录访问频度的区域，以�
 \label{fig:replace-algo-2}
 \end{figure}
 
-\item
 随着缓存系统的运行以及缓存块的不断加入。当冷链表已满，而又需要加入新的缓存块时。需要从冷链中移出一个缓存块以腾出空间，新的缓存块仍旧会被加入到冷链的热端。缓存算法会判断被移出缓存块的引用计数，如果其引用计数大于等于2，则清零其引用计数，并加入到热链表的热端；否则该缓存块将会被标记为空闲。图\ref{fig:replace-algo-3}展示了加入块G移出块A的过程。
 \begin{figure}[H]
 \centering
@@ -171,7 +167,6 @@ LFU算法需要为每个缓存块设置一个记录访问频度的区域，以�
 \label{fig:replace-algo-3}
 \end{figure}
 
-\item
 新缓存块的持续到来导致冷链表中的缓存块不断被移动到热链表，热链表也会逐渐变满。持续从冷链表向热链表移动缓存块会导致热链表变满，此时热链表冷端的缓存块会像图\ref{fig:replace-algo-3}中冷链表的冷端的缓存块一样被换出。从热链中被换出的缓存块的引用计数会被清零，然后加入到冷链的热端，重复图\ref{fig:replace-algo-3}的过程。整个过程在图\ref{fig:replace-algo-4}中描述。
 \begin{figure}[H]
 \centering
@@ -179,7 +174,6 @@ LFU算法需要为每个缓存块设置一个记录访问频度的区域，以�
 \caption{冷热链表均满时加入缓存块的处理策略}
 \label{fig:replace-algo-4}
 \end{figure}
-\end{itemize}
 
 \section{缓存映射策略}
 \label{sec:cache_mapping}
@@ -192,7 +186,7 @@ LFU算法需要为每个缓存块设置一个记录访问频度的区域，以�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.3\linewidth]{./graph/cache-map-1}
+\includegraphics[width=0.4\linewidth]{./graph/cache-map-1}
 \caption{直接相联映射}
 \label{fig:cache-map-1}
 \end{figure}
@@ -214,7 +208,7 @@ y = x mod m	（M为缓存的总大小）
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\linewidth]{./graph/cache-map-2}
+\includegraphics[width=0.4\linewidth]{./graph/cache-map-2}
 \caption{全相联映射}
 \label{fig:cache-map-2}
 \end{figure}
@@ -248,13 +242,12 @@ y = x mod m	（M为缓存的总大小）
 当检测缓存是否命中时，先使用主存地址求出其唯一对应的缓存组，既主存组内的某一块只能存入同一组号的缓存组内。相关联的两组内各存储块之间的映射关系任意，这一方面类似于全相联映射。组与组之间的映射关系固定，这一方面类似直接相联映射。
 
 一般会从三个角度比较这几种映射策略。
-\begin{itemize}
-\item 索引速度：直接映射可以直接计算出缓存地址，不需要查找，速度最快；组相联方式则需要查找对应的缓存组，速度次之；全相联映射的查询最为复杂。
-\item
-缓存利用率：全相联方式主存和缓存块之间的映射关系任意，缓存利用率最高；组相联方式组内映射任意，但是组间相互独立，利用率次之；直接映射缓存中的每个缓存块与主存中的一个或多个存储块相关联，利用率最低。
-\item
-实现难度：直接映射方式计算复杂度最低，适合硬件实现；组相联方式和全相联映射方式的实现难度取决于使用的索引数据结构。组相联方式可以在组内块数量较少时使用遍历的方法，这种实现也相对简单。
-\end{itemize}
+\subsubsection{索引速度}
+直接映射可以直接计算出缓存地址，不需要查找，速度最快；组相联方式则需要查找对应的缓存组，速度次之；全相联映射的查询最为复杂。
+\subsubsection{缓存利用率}
+全相联方式主存和缓存块之间的映射关系任意，缓存利用率最高；组相联方式组内映射任意，但是组间相互独立，利用率次之；直接映射缓存中的每个缓存块与主存中的一个或多个存储块相关联，利用率最低。
+\subsubsection{实现难度}
+直接映射方式计算复杂度最低，适合硬件实现；组相联方式和全相联映射方式的实现难度取决于使用的索引数据结构。组相联方式可以在组内块数量较少时使用遍历的方法，这种实现也相对简单。
 
 \section{缓存索引数据结构}
 \label{sec:cache_indexing}
@@ -358,7 +351,7 @@ B+树的删除过程要处理节点违规的情况，删除过程为：
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.4\linewidth]{./graph/write-back-queue}
+\includegraphics[width=0.6\linewidth]{./graph/write-back-queue}
 \caption{指向脏数据块的回写队列}
 \label{fig:write-back-queue}
 \end{figure}
