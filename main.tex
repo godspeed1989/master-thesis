@@ -15,6 +15,9 @@
 \newtoggle{blindreview}
 \togglefalse{blindreview}
 \toggletrue{blindreview} %这行注释打开的话按盲审要求排（隐去作者信息）
+\newtoggle{lookuprepeat}
+\togglefalse{lookuprepeat}
+\toggletrue{lookuprepeat} %这行注释打开的话按查重要求排
 
 \begin{document}
 %\layout{}
@@ -35,7 +38,7 @@
 \secretlevel{公开}
 
 \ctitle{基于SSD的HDD缓存系统研究}
-\etitle{A Research of HDD Caching System Based on SSD}
+\etitle{A Research of HDD Caching System based on SSD}
 
 \iftoggle{blindreview}{
     \cauthor{~}
@@ -51,7 +54,7 @@
 
 \cfirstdiscipline{计算机科学与技术}
 \efirstdiscipline{Computer Science and Technology}
-\cseconddiscipline{计算机应用技术}
+\cseconddiscipline{计算机技术}
 \cdegreetype{工程硕士}
 \cdate{2014年11月}
 \edate{Nov 2014}
@@ -62,6 +65,8 @@
 % 生成论文的封面、声明页、中英文摘要
 \makecover
 
+\iftoggle{lookuprepeat}{
+}{
 % 插图索引
 \listoffigures
 % 表格索引
@@ -70,6 +75,7 @@
 \input{listothers}
 % 论文目录
 \tableofcontents
+}
 
 %%%%%%%%%%%%%%%
 %% 论文正文
@@ -92,9 +98,11 @@
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,refs}
 
+\iftoggle{lookuprepeat}{
+}{
 % 使用自定义参考文献样式，而非bibtex
 \input{bibliography}
-
+}
 % 附录，建议放在参考文献之后，致谢与成果部分之前
 % \begin{appendix}
 %   \input{appendix01}
