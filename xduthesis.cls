@@ -173,13 +173,13 @@
 \setlength{\textheight}{\paperheight}
 \setlength\marginparwidth{0cm}
 \setlength\marginparsep{0cm}
-\addtolength{\textwidth}{-5.2cm} % 2.6cm in and out margin
-\setlength{\oddsidemargin}{2.6cm-1in-\hoffset}
-\setlength{\evensidemargin}{2.6cm-1in-\hoffset}
+\addtolength{\textwidth}{-6cm} % 3+2+1
+\setlength{\oddsidemargin}{4cm-1in-\hoffset}
+\setlength{\evensidemargin}{2cm-1in-\hoffset}
 \setlength{\topmargin}{2cm-1in-\voffset}
 \setlength{\headheight}{20pt}
 \setlength{\headsep}{3cm-1in-\voffset-\topmargin-\headheight}
-\addtolength{\textheight}{-5.5cm}
+\addtolength{\textheight}{-5.3cm} % 3+2.3
 \setlength{\footskip}{\paperheight-3cm-\textheight-1.75cm}
 \def\xdu@clearpage{%
   \clearpage%
@@ -264,7 +264,7 @@
   \fi%
   \@makechapterhead{#2}}
 \def\@makechapterhead#1{\noindent%
-  \parbox[b]{\textwidth}{\vskip3mm}%
+  \parbox[b]{\textwidth}{\vskip12mm}%
   {\centering \sanhao\song\bfseries%
     \ifnum \c@secnumdepth > \m@ne%
       \@chapapp\hskip1ex%
@@ -279,7 +279,7 @@
   \@makeschapterhead{#1}
   \@afterheading}
 \def\@makeschapterhead#1{\noindent%
-  \parbox[b]{\textwidth}{\vskip3mm}%
+  \parbox[b]{\textwidth}{\vskip12mm}%
   {\sanhao\song\bfseries\centering%
    \interlinepenalty\@M
    #1\par\nobreak%
@@ -350,12 +350,12 @@
     \end{center}
     \vskip85pt
     \sihao\bfseries
-    \xdu@put@prefix{4em}{\hei 作者姓名}\xdu@urule{40mm}{\song\xdu@cauthor}
-    \xdu@put@prefix{7em}{\hei 导师姓名、职称}\xdu@urule{35mm}{\song\xdu@csupervisor}\\[20bp]
-    \xdu@put@prefix{4em}{\hei 一级学科}\xdu@urule{40mm}{\song\xdu@cfirstdiscipline}
-    \xdu@put@prefix{4em}{\hei 二级学科}\xdu@urule{50mm}{\song\xdu@cseconddiscipline}\\[20bp]
-    \xdu@put@prefix{6em}{\hei 申请学位类别}\xdu@urule{30mm}{\song\xdu@cdegreetype}
-    \xdu@put@prefix{8em}{\hei 提交学位论文日期}\xdu@urule{30mm}{\song\xdu@cdate}
+    \xdu@put@prefix{4em}{\sihao\hei\bfseries 作者姓名}\xdu@urule{40mm}{\sihao\song\bfseries\xdu@cauthor}
+    \xdu@put@prefix{7em}{\sihao\hei\bfseries 导师姓名、职称}\xdu@urule{35mm}{\sihao\song\bfseries\xdu@csupervisor}\\[20bp]
+    \xdu@put@prefix{4em}{\sihao\hei\bfseries 一级学科}\xdu@urule{40mm}{\sihao\song\bfseries\xdu@cfirstdiscipline}
+    \xdu@put@prefix{4em}{\sihao\hei\bfseries 二级学科}\xdu@urule{50mm}{\sihao\song\bfseries\xdu@cseconddiscipline}\\[20bp]
+    \xdu@put@prefix{6em}{\sihao\hei\bfseries 申请学位类别}\xdu@urule{30mm}{\sihao\song\bfseries\xdu@cdegreetype}
+    \xdu@put@prefix{8em}{\sihao\hei\bfseries 提交学位论文日期}\xdu@urule{30mm}{\sihao\song\bfseries\xdu@cdate}
   }
 }
 \def\xdu@titlepage{%
@@ -442,11 +442,11 @@
       {A thesis submitted to}\\
       {\MakeUppercase{\xdu@xidian@estr}}\\
       {in partial fulfillment of the requirements}\\
-      {for the degree of Master of Philosophy}\\
+      {for the degree of Master}\\
+      {in \xdu@efirstdiscipline}\\
       \vskip11cm
       {By}\\
       {\xdu@eauthor}\\
-      {(\xdu@efirstdiscipline)}\\
       {Supervisor: \xdu@esupervisor}\\
       {\xdu@edate}
     \end{center}
@@ -515,20 +515,20 @@
   \song\xiaosi[1.5]
   {\centering\bfseries\sihao%
     \xdu@xidian@str\par\xdu@declaration@title\par}
-  \vskip5pt\xdu@declaration@str\vskip15mm
-  \xdu@put@prefix{5em}{\xdu@author@presig}\underline{\hskip30mm}\hskip25mm
-  \xdu@put@prefix{5em}{\xdu@date@presig}\underline{\hskip30mm}\par
-  \vskip20mm
+  \vskip15pt\xdu@declaration@str\vskip1em
+  \xdu@put@prefix{5em}{\xdu@author@presig}\underline{\hskip40mm}\hskip20mm
+  \xdu@put@prefix{5em}{\xdu@date@presig}\underline{\hskip40mm}\par
+  \vskip50mm
   \ifxdu@bachelor{}\else
   {\centering\bfseries\sihao%
     \xdu@xidian@str\par\xdu@authorization@title\par}
-  \vskip5pt\xdu@authorization@str\par
-  \vskip20mm
-  \xdu@put@prefix{5em}{\xdu@author@presig}\underline{\hskip30mm}\hskip25mm
-  \xdu@put@prefix{5em}{\xdu@supervisor@presig}\underline{\hskip30mm}\par
-  \vskip10mm
-  \xdu@put@prefix{5em}{\xdu@date@presig}\underline{\hskip30mm}\hskip25mm
-  \xdu@put@prefix{5em}{\xdu@date@presig}\underline{\hskip30mm}\par
+  \vskip15pt\xdu@authorization@str\par
+  \vskip1em
+  \xdu@put@prefix{5em}{\xdu@author@presig}\underline{\hskip40mm}\hskip20mm
+  \xdu@put@prefix{5em}{\xdu@supervisor@presig}\underline{\hskip40mm}\par
+  \vskip1em
+  \xdu@put@prefix{5em}{\xdu@date@presig}\underline{\hskip40mm}\hskip20mm
+  \xdu@put@prefix{5em}{\xdu@date@presig}\underline{\hskip40mm}\par
   \fi
 }
 \newcommand{\makecover}{
@@ -608,7 +608,7 @@
   \fi%
   \expandafter \ifx \csname xdu@eabstract\endcsname \relax%
   \else%
-    \chapter*{\bfseries\eabstractname}%
+    \chapter*{\eabstractname}%
     {\normalsize\par\xdu@eabstract\vskip12bp}%
     \setbox0=\hbox{\wuhao\bfseries Keywords:\hspace{0.5em}}%
     \setbox1=\hbox{\wuhao\bfseries Type of Dissertation:\hspace{0.5em}}%
