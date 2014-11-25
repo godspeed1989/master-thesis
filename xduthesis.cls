@@ -98,6 +98,7 @@
 \RequirePackage{ifthen}
 \RequirePackage{titlesec,titletoc}
 \RequirePackage[CJKnumber,BoldFont]{xeCJK}
+\RequirePackage{etoolbox}
 \punctstyle{quanjiao}
 \def\CJK@null{\kern\CJKnullspace\Unicode{48}{7}\kern\CJKnullspace}
 \defaultfontfeatures{Mapping=tex-text} % after fontspec
@@ -230,6 +231,14 @@
     \markboth{\ps@xdu@pageheader@master}{#1}%
   \fi}
 \fi
+\patchcmd{\listoffigures}
+  {\@mkboth{\MakeUppercase\listfigurename}{\MakeUppercase\listfigurename}}
+  {\markboth{\listfigurename}{\ps@xdu@pageheader@master}}
+  {}{}
+\patchcmd{\listoftables}
+  {\@mkboth{\MakeUppercase\listtablename}{\MakeUppercase\listtablename}}
+  {\markboth{\listtablename}{\ps@xdu@pageheader@master}}
+  {}{}
 \renewcommand{\sectionmark}[1]{}
 \newlength\xdu@CJK@twochars
 \newcommand{\xdu@unicode}[2]{\char\numexpr#1*256+#2\relax}
@@ -436,7 +445,7 @@
 \newcommand{\xdu@etitlepage@graduate}{
   \parbox[b]{0.9\linewidth}{
     \begin{center}
-      {\erhao\bfseries\xdu@etitle}
+      {\erhao\bfseries\xdu@etitle \par}
       \vskip2.5cm
       \sanhao
       {A thesis submitted to}\\
