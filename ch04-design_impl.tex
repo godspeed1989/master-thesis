@@ -10,9 +10,9 @@
 \section{系统整体架构}
 \label{sec:system_overview}
 
-缓存系统的实现可分为存储卷过滤器驱动程序、缓存系统和用户配置工具几部分（图\ref{fig:sys-overview}）。
+缓存系统的实现可分为存储卷过滤器驱动程序、缓存系统和用户配置工具三部分（图\ref{fig:sys-overview}）。
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/sys-overview}
 \caption{缓存系统结构图}
@@ -30,7 +30,7 @@
 
 存储卷过滤器驱动程序和缓存逻辑实现模块是系统的核心部分。这两部分虽然在逻辑上分离，但是互相依赖且存在非常多的数据交互。因此为了降低实现难度、减少模块间交互带来的性能损失，这两部分实现于同一个Windows内核模块之中（图\ref{fig:sys-flt-arch}）。
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/sys-flt-arch}
 \caption{存储卷过滤器驱动程序架构}
@@ -57,7 +57,7 @@ IO请求（IRP）过滤器：过滤存储卷设备所在IO栈上的所有类型I
 
 缓存系统实现中包含了LRU、LFU和论文提出的缓存页面替换算法。无论哪种页面替换算法所要达到的目的，以及提供给过滤器驱动程序的接口都一致。为了减少系统实现中的冗余代码，论文实现过程中将缓存算法的通用接口进行了抽象，每种替换算法只要按照通用接口进行实现，系统代码就可以通过C语言宏开关的方式方便切换缓存替换算法。
 
-通用接口分为内部和外部两类接口函数。外部接口将会被暴露给过滤器驱动程序，完成缓存系统的功能；外部函数接口的实现代码中会调用内部函数接口，虽然不同替换算法的替换策略不同，但实现中页面替换的逻辑流程仍然是相同的，因此可以为不同的算法抽象出相同的内部函数接口，减少冗余代码、方便缓存系统进行缓存替换算法间的切换。
+通用接口分为内部和外部两类接口函数。外部接口将会被暴露给过滤器驱动程序，完成缓存系统的功能；外部函数接口的实现代码中会调用内部函数接口，虽然不同替换算法的替换策略不同，但实现中页面替换的逻辑流程仍然相同，因此可以为不同的算法抽象出相同的内部函数接口，减少冗余代码、方便缓存系统进行缓存替换算法间的切换。
 
 \subsection{数据结构}
 
@@ -200,7 +200,7 @@ void ReadUpdataCachePool (
 \item 逐一处理HDD数据所涉及的缓存块。具体步骤见图\ref{fig:read-update-pool}，其中的虚线部分只有在写回模式时才会执行。
 \end{enumerate}
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/read-update-pool}
 \caption{读数据更新缓存池逻辑}
@@ -226,7 +226,7 @@ void WriteUpdataCachePool (
 \item 逐一处理HDD数据所涉及的缓存块。具体步骤见图\ref{fig:write-update-pool}，其中的虚线部分只有在写回模式时才会执行。
 \end{enumerate}
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/write-update-pool}
 \caption{写数据更新缓存池逻辑}
@@ -328,7 +328,7 @@ VOID _IncreaseBlockReference (
 默认分发函数用于实现我们不需要使用的分发函数接口。对于本驱动不关心的IRP，仍需传递给底层的驱动程序才能保证程序的正常运行。
 一个驱动程序可以为每个分发函数接口实现一个独立的分发函数。同样的，也可以用一个分发函数实现多种分发函数接口。默认分发函数就是一种被用来实现多种分发函数接口的函数。该函数直接跳过IO栈上当前驱动设备对象所处的位置，将IRP发送给更底层的驱动设备对象（图\ref{fig:df-default}）。
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.20\linewidth]{./graph/df-default}
 \caption{默认分发函数}
@@ -341,7 +341,7 @@ VOID _IncreaseBlockReference (
 Windows操作系统允许传递SystemPowerState和DevicePowerState两种类型的电源状态信息。
 本论文实现的存储卷过滤器驱动程序只关注SystemPowerState的PowerSystemShutdown电源事件。如图\ref{fig:df-power}所示，当包含系统即将关机信息的IRP被捕获后，电源事件分发函数会同步所有脏缓存块到HDD，并将IRP传递给更底层的设备对象；否则，跳过当前驱动设备对象，传递IRP给更底层的驱动设备对象。
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.25\linewidth]{./graph/df-power}
 \caption{电源事件分发函数}
@@ -353,7 +353,7 @@ Windows操作系统允许传递SystemPowerState和DevicePowerState两种类型�
 IOCTL分发函数实现了IRP\_MJ\_DEVICE\_CONTROL函数接口。IOCTL命令由Windows操作系统的IO管理器或是其他的内核驱动程序发送。大多数情况下，IOCTL类型的IRP是由用户层应用程序调用微软的Win32 API函数DeviceIoControl触发IO管理器产生的。
 每当有存储卷初始化完毕将要上线时，IO管理器会给存储卷所在IO栈上的所有设备对象发送IRP\_MN\_QUERY\_REMOVE\_DEVICE的IOCTL命令。论文实现的存储卷过滤器驱动程序在过滤到此类型的IRP后，会向更底层的设备对象同步发送此IRP。确认存储卷已经上线后，检测上线的存储卷是否是目标卷。如果是目标卷，则查询目标卷的相关信息并进行相应的初始化操作，完成IRP请求；否则直接完成IRP请求（图\ref{fig:df-ioctl}）。
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.25\linewidth]{./graph/df-ioctl}
 \caption{IOCTL分发函数}
@@ -365,7 +365,7 @@ IOCTL分发函数实现了IRP\_MJ\_DEVICE\_CONTROL函数接口。IOCTL命令由W
 PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）是总线在检测到硬件设备连接状态改变后，向总线驱动程序发送的一种总线信号。这种总线信号在被PnP事件管理器转换为相应类型的IRP后，会被发送给设备所在IO栈上的设备对象。
 当存储卷即将被移除时，PnP事件管理器会给存储卷所在IO栈上的所有设备对象发送包含IRP\_MN\_REMOVE\_DEVICE信息的IRP。论文实现的存储卷过滤器驱动程序在过滤到此类型的IRP后，会向更底层的设备对象同步发送此IRP。确认存储卷被移除后，如果是被SSD缓存的卷，则停止工作线程、释放缓存索引占用的内存空间、从底层设备对象分离并移除当前驱动程序的设备对象，最终完成IRP请求（图\ref{fig:df-pnp}）。
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.45\linewidth]{./graph/df-pnp}
 \caption{PnP事件分发函数}
@@ -377,7 +377,7 @@ PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）�
 存储卷的所有读和写操作都是通过IRP\_MJ\_READ和IRP\_MJ\_WRITE函数接口的实现函数完成的。论文实现的存储卷过滤器驱动程序使用一个读写分发函数统一实现了这两种函数接口。
 该函数不会立即对包含读写请求的IRP进行处理（图\ref{fig:df-rw}），而是将IRP加入到驱动程序的读写请求队列中供驱动程序创建的读写线程处理，并返回IRP正在处理中的状态。
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.2\linewidth]{./graph/df-rw}
 \caption{读写分发函数}
@@ -386,7 +386,7 @@ PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）�
 
 读写线程检测到读写队列不为空时，从队列头部依次处理每个读写请求（图\ref{fig:df-rw-thread}）。这样做的好处是可以使并行的读写操作串行化，避免了可能的数据访问冲突，同时还可以减少锁操作对性能的消耗。
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.75\linewidth]{./graph/df-rw-thread}
 \caption{处理读写请求的内核线程}
@@ -395,7 +395,7 @@ PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）�
 
 读写线程中对读和写请求的处理逻辑相似但细节不同。图\ref{fig:df-proc-read}展现了读请求的处理逻辑。
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.8\linewidth]{./graph/df-proc-read}
 \caption{读写线程的读请求处理逻辑}
@@ -404,7 +404,7 @@ PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）�
 
 图\ref{fig:df-proc-write}展现了写请求的处理逻辑。写请求和读请求的处理都存在更新SSD缓存池的操作，但实现的细节并不相同：读请求直接使用读请求获得的HDD数据更新SSD；写请求依据回写策略的不同又可分为写穿（Write Through）和写回（Write Back）两类。写穿策略会先将写请求的数据先应用于HDD，再去更新SSD。写回策略直接使用写请求的数据更新SSD，回写线程负责将缓存中的脏数据同步回HDD。这两种回写策略在\ref{sec:wb_strategy}节被详细描述。
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.8\linewidth]{./graph/df-proc-write}
 \caption{读写线程的写请求处理逻辑}
@@ -421,7 +421,7 @@ PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）�
 
 如果读写请求的大小和缓存空间的划分不是以相同字节数目对齐，就需要在查询缓存池和拷贝缓存数据时解决读写数据不对齐的问题。如图\ref{fig:vsize-cache-block}所示，不对齐部分只可能出现在读写请求的开头（f\_broken）和结尾（e\_broken）部分。只需要特殊处理这两部分数据，其余部分按对齐方式正常处理即可。
 
-\begin{figure}[H]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.8\linewidth]{./graph/vsize-cache-block}
 \caption{请求长度与缓存块大小不对齐的情况}
@@ -477,7 +477,7 @@ PnP事件分发函数实现了IRP\_MJ\_PNP函数接口。PnP（Plug and Play）�
 
 \begin{itemize}
 \item start
-\\描述：为某个指定的HDD存储卷开启SSD缓存。
+\\描述：开启某个指定HDD存储卷的SSD缓存。
 \\使用：start  [disk\_number]  [volume\_number]
 \\IOCTL：IOCTL\_DF\_START
 

@@ -99,6 +99,8 @@
 \RequirePackage{titlesec,titletoc}
 \RequirePackage[CJKnumber,BoldFont]{xeCJK}
 \RequirePackage{etoolbox}
+\RequirePackage[bottom]{footmisc}
+\raggedbottom
 \punctstyle{quanjiao}
 \def\CJK@null{\kern\CJKnullspace\Unicode{48}{7}\kern\CJKnullspace}
 \defaultfontfeatures{Mapping=tex-text} % after fontspec
@@ -355,7 +357,7 @@
   \parbox[b]{0.9\linewidth}{
     \vskip140mm
     \begin{center}
-      {\noindent\erhao\song\bfseries\xdu@ctitle}
+      {\noindent\erhao\song\bfseries\xdu@ctitle\par}
     \end{center}
     \vskip85pt
     \sihao\bfseries

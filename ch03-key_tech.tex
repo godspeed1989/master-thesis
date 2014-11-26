@@ -18,7 +18,7 @@ Windows驱动程序模型（Windows Driver program Module, WDM）是一种针对
 WDM模型按照面向对象的程序设计思想，将操作系统内核中的所有组件都划分为不同类型的设备对象（Device Object）和驱动对象（Driver Object）。设备对象既可以对应具体的硬件设备，如磁盘、键盘、显示器，也可以对应逻辑上存在的设备，如存储卷、虚拟光驱、Ramdisk。驱动对象对应了加载到内核中驱动程序，如显卡驱动程序、网卡驱动程序、鼠标驱动程序。一台计算机可以存在多个同种类型的硬件设备，这些设备只需要一个对应的驱动程序就可以驱动。也就是说，一个驱动程序可以管理多个同种类型的设备对象。
 
 驱动对象的职责是管理设备对象，因此设备对象这种内核数据结构都由驱动对象所创建并注册。驱动对象可以在设备对象不存在时独立存在。没有驱动对象为硬件设备创建的设备对象，硬件设备也不可能正常运行。图\ref{fig:drv-to-dev}描述了这样一种从驱动到设备一对多的对象之间的关系。
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/drv-to-dev}
 \caption{设备对象和驱动对象的对应关系}
@@ -47,7 +47,7 @@ IRP(I/O request package)是Windows内核中描述驱动程序模块之间交互�
 \subsection{驱动程序分发函数}
 设备对象接收到IRP后，将其作为参数传递给驱动程序的分发函数。驱动程序通过IRP内部保存的分发函数类型码（IRP\_MJ\_XXX）确定用于处理该IRP的分发函数。Windows系统定义了针对不同类型设备的一整套分发函数码。驱动程序要能正常运行，必须实现表\ref{tab:must-handled-major-function}中的所有分发函数。
 
-\begin{table}[H]
+\begin{table}[!htb]
 \centering
 \caption{驱动程序必须提供的分发函数}
 \begin{tabular}{|ll|}
@@ -67,7 +67,7 @@ IRP(I/O request package)是Windows内核中描述驱动程序模块之间交互�
 
 表\ref{tab:option-handled-major-function}中的分发函数则不是必须的，驱动程序可根据实际情况选择性实现。
 
-\begin{table}[H]
+\begin{table}[!htb]
 \centering
 \caption{驱动程序选择性提供的分发函数}
 \begin{tabular}{|ll|}
@@ -87,7 +87,7 @@ IRP(I/O request package)是Windows内核中描述驱动程序模块之间交互�
 设计驱动程序堆栈这一框架，除了能够层次化的管理驱动程序，另一个目的就是使得在功能型的驱动之间加入过滤器驱动程序\cite{filterdrv2004}成为可能。
 
 在任意某个驱动程序堆栈中，可以加入任意多个过滤器驱动程序。一个典型的驱动程序堆栈的组成结构如图\ref{fig:io-stack-filter}所示。过滤器类型驱动程序并非设备运行所必须，因而图中以虚线画出。
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/io-stack-filter}
 \caption{驱动程序堆栈和过滤器驱动程序}
@@ -122,7 +122,7 @@ LRU替换算法\cite{LRU}通过缓存块最后一次访问距离当前的时长�
 
 缓存块链表存在冷、热两端。当存在空闲的缓存块时，新缓存块会由热端加入。运行中被访问的缓存块从链表中的任意位置移动到热端。当需要加入新缓存块而缓存链表又已经满时，从链表的冷端移除缓存块，替换数据后加入到链表热端（图\ref{fig:replace-algo-lru}）。从热端到冷端，链表中的元素均按照最近一次访问时间的递减顺序排列。
 
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/replace-algo-lru}
 \caption{使用链表的LRU缓存替换算法}
@@ -144,7 +144,7 @@ LFU算法需要为每个缓存块设置一个记录访问频度的区域，以�
 上述两种缓存页面替换算法在选择缓存块时，都存在只考虑最后一次的访问时间或使用频度等某一项因素进行评估的缺陷。为了克服这种缺陷，本论文提出了一种综合考虑访问时间和使用频度的替换算法，该算法实现简单，且测试结果表明命中率优于LRU和LFU替换算法。以下是该算法的缓存块组织方式和处理逻辑：
 
 替换算法使用冷、热两个链表管理缓存块（图\ref{fig:replace-algo-1}），初始状态下两个链表均为空，代表缓存中还没有开始缓存数据。类似于LRU，每个链表都存在冷、热两端，缓存块在链表中的位置代表了缓存块最近一次访问的时间。两个链表的容量上限之和代表了缓存的总容量。
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/replace-algo-1}
 \caption{替换算法使用两个链表管理缓存块}
@@ -152,7 +152,7 @@ LFU算法需要为每个缓存块设置一个记录访问频度的区域，以�
 \end{figure}
 
 当冷链表不为满时，新到来的缓存块首先会被加入到冷链表的热端，在运行过程中会统计每个缓存块的访问计数（初始为1）。如果某个缓存块被访问，该缓存块无论在冷链还是热链都会被移动到该链表的热端，并且访问计数增加1。图\ref{fig:replace-algo-2}展示了缓存块以A->B->C->D->E的字母表顺序加入缓存后的组织状态。
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/replace-algo-2}
 \caption{新到来的缓存块加入到冷链表}
@@ -160,7 +160,7 @@ LFU算法需要为每个缓存块设置一个记录访问频度的区域，以�
 \end{figure}
 
 随着缓存系统的运行以及缓存块的不断加入。当冷链表已满，而又要加入新的缓存块时。则需从冷链中移出一部分缓存块以释放空间，新的缓存块仍旧会被加入到冷链的热端。缓存算法会判断被移出缓存块的引用计数，如果其引用计数大于等于2，则清零其引用计数，并加入到热链表的热端；否则该缓存块空间将会被释放。图\ref{fig:replace-algo-3}展示了加入块G移出块A的过程。
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.6\linewidth]{./graph/replace-algo-3}
 \caption{冷链表满时加入缓存块的处理策略}
@@ -168,7 +168,7 @@ LFU算法需要为每个缓存块设置一个记录访问频度的区域，以�
 \end{figure}
 
 新缓存块的持续到来导致冷链表中的缓存块不断被移动到热链表，热链表也会逐渐变满。当热链表中也不存在空闲空间时，加入新缓存块，热链表冷端的缓存块会像图\ref{fig:replace-algo-3}中冷链表的冷端的缓存块一样被换出。从热链中被换出的缓存块的引用计数会被清零，然后加入到冷链表的热端，重复图\ref{fig:replace-algo-3}的过程。整个过程在图\ref{fig:replace-algo-4}中描述。
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.7\linewidth]{./graph/replace-algo-4}
 \caption{冷热链表均满时加入缓存块的处理策略}
@@ -186,7 +186,7 @@ LFU算法需要为每个缓存块设置一个记录访问频度的区域，以�
 
 主存储器中的每一块空间，都被映射到了缓存中的某块指定的存储空间中。每个缓存块关联了主存中的一个或多个存储空间（图\ref{fig:cache-map-1}）。
 
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/cache-map-1}
 \caption{直接相联映射}
@@ -208,7 +208,7 @@ y = x mod m	（M为缓存的总大小）
 
 与直接相联的固定映射方式相反，全相联映射缓存中的每一块都可映射给将主存的任一块数据（图\ref{fig:cache-map-2}）。
 
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/cache-map-2}
 \caption{全相联映射}
@@ -234,7 +234,7 @@ y = x mod m	（M为缓存的总大小）
 \item 主存内组的数目是缓存内总组数目的整数倍。
 \end{itemize}
 
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/cache-map-3}
 \caption{组相联映射}
@@ -292,7 +292,7 @@ B+树的查找算法类似于排序二叉树：从根节点开始，自顶向下
 
 \subsubsection{B+树的插入算法}
 
-当节点内元素的树木不属于B+树节点结构的可接受的范围时，这个B+树节点处于违规状态。节点内节点指针的最小数量必须大于m/2。B+树的插入过程要处理节点因包含过多元素而违规的情况，插入过程为：
+当节点内元素的数目不属于B+树节点结构的可接受的范围时，这个B+树节点处于违规状态。节点内节点指针的最小数量必须大于m/2。B+树的插入过程要处理节点因包含过多元素而违规的情况，插入过程为：
 \begin{enumerate}
 \item 根据数据索引值，查找适合的元素插入叶子节点。
 \item 将元素插入到叶子节点内部的合适位置上。
@@ -315,7 +315,7 @@ B+树的删除过程要处理节点违规的情况，删除过程为：
 \end{enumerate}
 \end{enumerate}
 
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=1\linewidth]{./graph/bplus-tree}
 \caption{B+树结构}
@@ -330,7 +330,7 @@ B+树的删除过程要处理节点违规的情况，删除过程为：
 本节将会介绍工程实现中使用最为广泛的三种回写策略：写穿法、写回法和写一次法的原理和实现方式。本论文实现的缓存系统实现了写穿法、写回法两种回写策略，运行时只能选取其中一种策略运行。
 
 \subsection{写穿法（Write Through）}
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/write-through}
 \caption{写穿法处理策略}
@@ -342,7 +342,7 @@ B+树的删除过程要处理节点违规的情况，删除过程为：
 写穿法这种回写策略的缺点是，运行这种回写策略的缓存系统不但无法提升应用程序的写操作的IO性能，相反的，还会造成写性能一定程度的降低。这是因为，如果没有缓存系统，应用程序的写操作直接应用到机械硬盘上即可；存在缓存系统，除了应用到机械硬盘，还要使用写请求的数据更新固态硬盘缓存中命中部分的数据，总的处理时间相对没有缓存反而更长。
 
 \subsection{写回法（Write Back）}
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.4\linewidth]{./graph/write-back}
 \caption{写回法处理策略}
