@@ -1,0 +1,12 @@
+@del /Q slide.aux
+@del /Q slide.lof
+@del /Q slide.log
+@del /Q texput.log
+@del /Q slide.lot
+@del /Q slide.out
+@del /Q slide.toc
+@del /Q slide.nav
+@del /Q slide.snm
+@del /Q slide.vrb
+@del /Q slide.synctex.gz
+@del /Q slide.pdf
