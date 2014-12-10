@@ -67,15 +67,18 @@
 %---------------------------------------------------------------
 \section{研究背景}
 %---------------------------------------------------------------
-\begin{frame}{背景介绍}
+\begin{frame}{背景介绍1}
 固态硬盘有着体积小、功耗低以及访问速度快等优势。但固态硬盘的高昂价格和相对较低的存储密度，使其难以在短时间内完全取代传统的机械硬盘。
 \begin{itemize}
     \item 固态硬盘的价格从2006的3美元/GB，跌至2014年的0.67美元/GB，但和机械硬盘0.09美元/GB仍存较大差距。通过固态硬盘价格的历史下降速度可以推算出到2020年其价格约为0.14美元/GB，同样计算方法得出的机械硬盘价格将会是0.03美元/GB。
 \end{itemize}
 \end{frame}
 
-\begin{frame}{固态硬盘的应用}
-在许多存储中心，同时部署固态硬盘和机械硬盘。只有部分固态硬盘的存储空间被用作存储。
+\begin{frame}{背景介绍2}
+\begin{figure}
+\includegraphics[width=0.5\linewidth]{./fig/hybrid}
+\end{figure}
+在许多存储中心的磁盘阵列中，同时部署固态硬盘和机械硬盘。只有部分固态硬盘的存储空间被用作存储。
 \end{frame}
 
 %---------------------------------------------------------------
@@ -89,17 +92,18 @@
 \end{frame}
 
 \begin{frame}{解决方案}
-论文课题提出了一种基于固态硬盘的机械硬盘缓存系统，使用固态硬盘的存储空间作为机械硬盘的缓存，通过实现多种缓存管理算法，提升存储系统的IO性能。
+论文课题提出了一种基于固态硬盘的机械硬盘缓存系统解决方案，使用固态硬盘的存储空间作为机械硬盘的缓存，通过实现多种缓存管理算法，提升存储系统的IO性能。
 \end{frame}
 
+%---------------------------------------------------------------
 \section{研究现状}
-
+%---------------------------------------------------------------
 \begin{frame}{研究成果}
 \begin{itemize}
-    \item Mac的Fusion Drive使用LVM实现了基于SSD的HDD缓存。
+    \item Mac系统的Fusion Drive使用LVM实现了基于SSD的HDD缓存。
     \item Linux操作系统下存在dmcache（redhat）， bcache（kernel）和flashcache（Facebook）几种基于SSD的缓存技术的开源实现。
-    \item Windows系统自带的ReadyBoost是一种解决方案，但其只支持闪存（NAND 存储）设备作为缓存，如果驱动器采用的固态硬盘（SSD），ReadyBoost将不可用。
-    \item 论文实现的缓存系统将会弥补ReadyBoost的不足。
+    \item Windows系统自带的ReadyBoost是一种基于flash（闪存）的解决方案，但其只支持闪存设备作为缓存，如果驱动器采用固态硬盘（SSD），ReadyBoost将不可用。
+    \item 论文实现的缓存系统弥补了ReadyBoost的不足。
 \end{itemize}
 \begin{figure}
 \includegraphics[width=0.5\linewidth]{./fig/research-status}
@@ -107,7 +111,7 @@
 \end{frame}
 
 %---------------------------------------------------------------
-\section{本文方法}
+\section{缓存系统解决方案}
 %---------------------------------------------------------------
 \begin{frame}{缓存系统架构}
 \begin{figure}
@@ -119,13 +123,13 @@
 \begin{itemize}
 \item 存储卷过滤器驱动
     \begin{itemize}
-    \item Windows WDM 驱动模型开发
+    \item Windows下WDM模型程序开发
     \end{itemize}
 \item 缓存系统
     \begin{itemize}
-    \item 页面替换算法设计
+    \item 缓存页面替换算法设计
+    \item 映射策略和索引数据结构
     \item 回写策略设计
-    \item 映射策略设计
     \end{itemize}
 \item 配置工具
     \begin{itemize}
@@ -149,16 +153,14 @@
     \end{column}
     \begin{column}{0.5\textwidth}
         使用Windows系统WDM驱动程序模型完成的过滤器类型驱动。
-
         Windows驱动程序分三类：
         \begin{itemize}
         \item 功能驱动。
         \item 总线驱动。
         \item 过滤器驱动：过滤上两类驱动间的消息传递IRP。
         \end{itemize}
-
         过滤器驱动也分三类。
-        系统实现了上层过滤器驱动。
+        系统实现的是上层过滤器驱动。
     \end{column}
     \end{columns}
 \end{frame}
@@ -167,34 +169,33 @@
     \begin{columns}
     \begin{column}{0.5\textwidth}
         \begin{figure}
-        \includegraphics[width=0.4\textwidth]{../graph/df-rw}
+        \includegraphics[width=0.3\textwidth]{../graph/df-rw}
         \end{figure}
     \end{column}
     \begin{column}{0.5\textwidth}
         \begin{figure}
-        \includegraphics[width=1.0\textwidth]{../graph/df-rw-thread}
+        \includegraphics[width=0.9\textwidth]{../graph/df-rw-thread}
         \end{figure}
     \end{column}
     \end{columns}
-过滤器驱动程序会将读写请求加入等待队列中，并返回一个pending状态，表示正在处理请求。读写线程检测到队列不为空时，便通过和缓存系统交互，处理每个读写请求。
+过滤器驱动程序会将读写请求加入处理请求队列，并返回一个pending状态，表示正在处理请求。读写线程检测到队列不为空时，便通过和缓存系统交互，处理每个读写请求。
 \end{frame}
 
 \begin{frame}{缓存系统逻辑}
-缓存系统
 \begin{itemize}
 \item 缓存页面替换算法
-\item 缓存索引数据结构
 \item 缓存块映射策略
+\item 缓存索引数据结构
 \item 回写策略
 \end{itemize}
 \end{frame}
 
 \begin{frame}{缓存系统：替换算法}
 \begin{itemize}
-\item 替换算法的功能是：缓存已经满时，决定哪些缓存块会被替换掉。
-\item LRU（Least Recently Used）
-\item LFU（Least Frequently Used）
-\item 论文使用一种综合考虑访问时间和使用频度的替换算法，该算法实现简单，且结果表明命中率优于LRU和LFU替换算法。
+\item 缓存替换算法的功能是：缓存已经满时，决定哪些缓存块会被替换掉。
+\item LRU（Least Recently Used）最近最少访问
+\item LFU（Least Frequently Used）最近最不访问
+\item 论文使用的是一种综合考虑访问时间和使用频度的替换算法，该算法实现简单，且测试结果表明命中率优于LRU和LFU替换算法。
 \end{itemize}
 \end{frame}
 
@@ -202,43 +203,46 @@
 \begin{figure}
 \includegraphics[width=0.6\linewidth]{../graph/replace-algo-1}
 \end{figure}
+使用冷、热两个链表管理缓存块。
 \begin{figure}
 \includegraphics[width=0.6\linewidth]{../graph/replace-algo-2}
 \end{figure}
-缓存块首先会被加入到冷链表的热端，在运行过程中会统计每个缓存块的访问计数（初始为 1）。如果某个缓存块被访问，该缓存块无论在冷链还是热链都会被移动到该链表的热端，并且访问计数增加 1。
+缓存块首先会被加入到冷链表的热端，在运行中统计缓存块的访问计数（初始为1）。
+如果某个缓存块被访问，该缓存块访问计数加1，并会被移动到链表的热端。
 \end{frame}
 
 \begin{frame}{缓存系统：替换算法}
 \begin{figure}
 \includegraphics[width=0.6\linewidth]{../graph/replace-algo-3}
 \end{figure}
-当冷链表已满，而又要加入新的缓存块时。新的缓存块仍旧会被加入到冷链的热端。算法判断被移出缓存块的引用计数，如果其引用计数大于等于2，则清零其引用计数，并加入到热链表的热端；否则缓存块空间将会被释放。
+当要加入新的缓存块而冷链表已满时，冷链表冷端的缓存块会被移除。
+算法判断被移出缓存块的引用计数，如果其引用计数大于等于2，则清零其引用计数，并加入到热链表的热端；否则缓存块空间将会被释放。
 \end{frame}
 
 \begin{frame}{缓存系统：替换算法}
 \begin{figure}
 \includegraphics[width=0.6\linewidth]{../graph/replace-algo-4}
 \end{figure}
-当热链表中也不存在空闲空间时，加入新缓存块，热链表冷端的缓存一样会被换出。从热链中被换出的缓存块的引用计数会被清零，然后加入到冷链表的热端，如此循环直到达到稳定。
+当热链表中也不存在空闲空间时，加入新缓存块，热链表冷端的缓存一样会被移除。从热链中被换出的缓存块的引用计数会被清零，然后加入到冷链表的热端，如此循环直到达到稳定。
 \end{frame}
 
 \begin{frame}{缓存系统：替换算法}
 \begin{itemize}
-\item 本替换算法的核心思想是：冷、热链表内部完成LRU替换算法；冷、热链表之间完成LFU替换算法。
+\item 核心思想：使用冷、热链表管理，链表内部实现LRU替换算法；链表之间实现LFU替换算法。
 \item 单独观察冷或热链表，实质就是一个LRU算法管理的链表。缓存块在两个链表之间移动时，考虑到了访问频度的因素，这一点则反映了LFU替换算法的思想。
 \end{itemize}
 \end{frame}
 
 \begin{frame}{缓存系统：映射策略}
 映射策略指的是从主存到缓存的映射方式，直接决定了缓存的查询方式。
-论文使用了全相联映射的方式，缓存中的每一块都可映射给将主存中的任意一块数据。
+论文使用全相联映射的方式，即缓存中的每一块都可映射给将主存中的任意一块数据。
 \begin{figure}
-\includegraphics[width=0.6\linewidth]{../graph/cache-map-2}
+\includegraphics[width=0.5\linewidth]{../graph/cache-map-2}
 \end{figure}
 \end{frame}
 
 \begin{frame}{缓存系统：映射策略}
-全相联映射的优点是空间利用灵活，缺点是必须要使用辅助的查找数据结构建立索引。
+全相联映射的优点是空间利用效率高，缺点是须要使用辅助的查找数据结构建立索引。
 
 论文使用B+树索引数据结构。
 
@@ -250,7 +254,7 @@ B+树所有叶子节点在同一层上，只有叶子节点储存数据。
 
 \begin{frame}{缓存系统：回写策略}
 \begin{itemize}
-\item 对于应用程序的写请求，回写策略决定了直接将写请求应用到主存储器上还是延迟后再进行回写更新。
+\item 对于应用程序的写请求，回写策略决定了直接将写请求应用到主存储器，还是延迟后再进行回写更新。
 \item 本论文的SSD缓存系统提供了写穿法（Write Through）、写回法（Write Back）两种回写策略的实现。
 \end{itemize}
 \begin{figure}
@@ -287,7 +291,7 @@ B+树所有叶子节点在同一层上，只有叶子节点储存数据。
 \begin{itemize}
 \item 定时刷新。
 \item 定量刷新。
-\item 经测试，定量刷新性能优于定时刷新。
+\item 经测试，定量刷新性能优于定时刷新，系统只实现了定量刷新的触发条件。
 \end{itemize}
 \end{block}
 \end{frame}
@@ -296,22 +300,23 @@ B+树所有叶子节点在同一层上，只有叶子节点储存数据。
     \begin{columns}
     \begin{column}{0.5\textwidth}
         \begin{figure}
-        \includegraphics[width=0.6\textwidth]{../graph/write-through}
+        \includegraphics[width=0.8\textwidth]{../graph/write-back-thread}
         \end{figure}
     \end{column}
     \begin{column}{0.5\textwidth}
         论文使用了定量刷新的方式管理回写。
         三个触发条件：
         \begin{itemize}
-        \item 队列已满
-        \item ‘写回所有’
-        \item ‘终止线程’
+        \item 回写队列已满
+        \item ‘写回所有’信号
+        \item ‘终止线程’信号
         \end{itemize}
     \end{column}
     \end{columns}
 \end{frame}
 
 \begin{frame}{配置工具}
+用户层配置工具使用IOCTL命令与驱动程序交互。
 \begin{itemize}
 
 \item start   disk\_number   volume\_number
@@ -401,7 +406,8 @@ random\_distribution=zipf:1.2     // 读写位置分布
 \begin{figure}
 \includegraphics[width=0.7\textwidth]{../graph/enhance-rate}
 \end{figure}
-缓存系统的存在从一定程度带来了HDD随机读、随机写的性能提升。相较于写穿法，写回法对存储系统的读写性能提升效果更为明显。
+缓存系统带来了2-3倍的随机读、4-6倍的随机写性能提升。
+相较于写穿法，写回法对存储系统的读写性能提升效果更为明显。
 \end{frame}
 
 \begin{frame}{与FancyCache比较}
@@ -436,21 +442,16 @@ random\_distribution=zipf:1.2     // 读写位置分布
 \begin{frame}{展望}
 \begin{itemize}
 \item 结合固态硬盘特性的性能优化
+固态硬盘的写性能略差于读性能。
 \item 面向特殊场景的混合存储系统的研究
+针对不同应用场景，更准确的冷热数据识别。
 \item 使用实时压缩算法提高缓存的空间利用率
 \end{itemize}
 \end{frame}
 
-
-\section{参考文献}
-\begin{frame}[fragile, allowframebreaks]{参考文献}
-\begin{thebibliography}{10}
-\setbeamertemplate{bibliography item}[text]
-
-\bibitem{bordes2005fast}
-Bordes A, Ertekin S, Weston J, \textit{et al.} Fast kernel classifiers with online and active learning[J]. The Journal of Machine Learning Research, 2005, 6: 1579-1619.
-
-\end{thebibliography}
+\section{致谢}
+\begin{frame}{Thanks!}
+谢谢大家！
 \end{frame}
 
 \end{document}
