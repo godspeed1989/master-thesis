@@ -43,10 +43,11 @@
 
 
 \title{基于SSD的HDD缓存系统研究}
-\author{闫林}
+\author{
+闫林\\
+指导教师：刘凯教授
+}
 \institute{
-指导教师：刘凯教授\\
-\vspace{5mm}
 计算机学院\\
 西安电子科技大学\\
 }
@@ -56,6 +57,10 @@
 
 \begin{frame}[plain] % use plain since we donot want footline on the title page
   \titlepage
+\end{frame}
+
+\begin{frame}{目录}
+  \tableofcontents
 \end{frame}
 
 \AtBeginSection{
@@ -99,7 +104,7 @@
 %---------------------------------------------------------------
 \section{研究现状}
 %---------------------------------------------------------------
-\begin{frame}{研究成果}
+\begin{frame}{研究现状}
 \begin{itemize}
     \item Mac系统的Fusion Drive使用LVM实现了基于SSD的HDD缓存。
     \item Linux操作系统下存在dmcache（redhat）， bcache（kernel）和flashcache（Facebook）几种基于SSD的缓存技术的开源实现。
@@ -124,17 +129,17 @@
 \begin{itemize}
 \item 存储卷过滤器驱动
     \begin{itemize}
-    \item Windows下WDM模型程序开发
+    \item Windows下基于WDM模型的驱动程序开发
     \end{itemize}
 \item 缓存系统
     \begin{itemize}
-    \item 缓存页面替换算法设计
-    \item 映射策略和索引数据结构
-    \item 回写策略设计
+    \item 缓存页面替换算法的设计
+    \item 映射策略和索引数据结构的设计
+    \item 回写策略的设计
     \end{itemize}
 \item 配置工具
     \begin{itemize}
-    \item 通过IOCTL命令与驱动程序进行交互
+    \item 通过IOCTL命令与驱动程序交互的用户层配置工具
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -167,6 +172,8 @@
 \end{frame}
 
 \begin{frame}{Read/Write Processing Thread}
+过滤器驱动程序会将读写请求加入处理请求队列，并返回一个pending状态，表示正在处理请求。读写线程检测到队列不为空时，便通过和缓存系统交互，处理每个读写请求。
+\vspace{1cm}
     \begin{columns}
     \begin{column}{0.5\textwidth}
         \begin{figure}
@@ -179,7 +186,6 @@
         \end{figure}
     \end{column}
     \end{columns}
-过滤器驱动程序会将读写请求加入处理请求队列，并返回一个pending状态，表示正在处理请求。读写线程检测到队列不为空时，便通过和缓存系统交互，处理每个读写请求。
 \end{frame}
 
 \begin{frame}{缓存系统逻辑}
@@ -334,7 +340,7 @@ B+树所有叶子节点在同一层上，只有叶子节点储存数据。
 
 \item verbose
 
-输出所有调试信息
+打开所有调试信息输出
 
 \item quiet
 
@@ -403,12 +409,29 @@ random\_distribution=zipf:1.2     // 读写位置分布
 \end{block}
 \end{frame}
 
-\begin{frame}{性能测试结果}
+\begin{frame}{命中率测试结果}
+\begin{table}
+\centering
+\caption{写回、写穿两种模式下的缓存命中率}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\diagbox{模式}{测试类型} & 随机读 & 随机写 & 混合随机读写 \\ 
+\hline 写穿模式 & 70.27\% & 70.75\% & 70.61\% \\ 
+\hline 写回模式 & 76.29\% & 76.43\% & 73.64\% \\ 
+\hline 
+\end{tabular} 
+\end{table}
+写回模式的缓存命的中率略高于写穿模式。
+写回模式下不定期的回写队列刷新操作，延长了数据在缓存中的停留时间，一定程度上提升了命中率。
+\end{frame}
+
+\begin{frame}{性能提升结果}
 \begin{figure}
 \includegraphics[width=0.7\textwidth]{../graph/enhance-rate}
 \end{figure}
 缓存系统带来了2-3倍的随机读、4-6倍的随机写性能提升。
 相较于写穿法，写回法对存储系统的读写性能提升效果更为明显。
+（性能提升倍数是相对于无缓存情况下的HDD性能而言）
 \end{frame}
 
 \begin{frame}{与FancyCache比较}
@@ -443,10 +466,15 @@ random\_distribution=zipf:1.2     // 读写位置分布
 \begin{frame}{展望}
 \begin{itemize}
 \item 结合固态硬盘特性的性能优化
+
 固态硬盘的写性能略差于读性能。
+
 \item 面向特殊场景的混合存储系统的研究
+
 针对不同应用场景，更准确的冷热数据识别。
+
 \item 使用实时压缩算法提高缓存的空间利用率
+
 \end{itemize}
 \end{frame}
 
