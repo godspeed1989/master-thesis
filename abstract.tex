@@ -10,7 +10,7 @@
 
 针对固态硬盘和机械硬盘共存于数据中心，但性能却没有得到充分发挥这一现状，本论文提出了一种基于固态硬盘的机械硬盘缓存系统解决方案：该方案使用固态硬盘的存储空间作为机械硬盘的缓存，通过实现多种缓存管理算法，提升存储系统的IO性能。
 
-解决方案中基于数据局部性原理的缓存管理算法，在系运行过程中，会在冷数据保持不变的前提下，将访问频繁的热数据由机械硬盘逐块拷贝至固态硬盘，这样会降低再次访问热数据的读写延迟。缓存系统中实现了LRU、LFU以及一种论文提出的缓存页面替换算法。这种新的缓存页面替换算法综合考虑了缓存块的访问时间和访问频度因素，命中率高且算法时间和空间复杂度低。用户利用配置工具，可指定哪个固态硬盘卷用作缓存空间、以及去缓存哪一块机械硬盘。最终实现的Windows\textregistered存储卷过滤器驱动程序，提供写穿和写回两种缓存运行模式。两模式的不同在于，写穿模式只缓存读请求，写回模式既缓存读又缓存写请求。
+解决方案中基于数据局部性原理的缓存管理算法，在系运行过程中，会在冷数据保持不变的前提下，将访问频繁的热数据由机械硬盘逐块拷贝至固态硬盘，这样会降低再次访问热数据的读写延迟。缓存系统中实现了LRU、LFU以及一种论文改进的缓存页面替换算法。改进的缓存页面替换算法综合考虑了缓存块的访问时间和访问频度因素，命中率高且算法时间和空间复杂度低。用户利用配置工具，可指定哪个固态硬盘卷用作缓存空间、以及去缓存哪一块机械硬盘。最终实现的Windows\textregistered存储卷过滤器驱动程序，提供写穿和写回两种缓存运行模式。两模式的不同在于，写穿模式只缓存读请求，写回模式既缓存读又缓存写请求。
 
 为进一步优化性能提升效果，缓存系统还实现了对超长缓存块的支持：支持大于读写请求对齐长度的缓存块。从而达到减少大尺寸读、写请求所所必须的缓存查询次数，提升数据拷贝效率的目的。
 
@@ -39,7 +39,7 @@
 \noindent In order to solve this SSD and HDD coexist but unreleased performance problem, this paper proposes a SSD based HDD caching system solution: using SSD as cache for HDD to improve HDD's IO performance with multiple cache replacement algorithms.
 \vspace{1em}
 
-\noindent Based on algorithms depending on data locality theory, the frequently accessed hot data on HDD will be copied to SSD gradually, while leaving cold data on HDD. The latency will be very low to access hot data again. LRU, LFU and a new proposed cache page replacement algorithm are implemented to distinguish hot and cold data. This new proposed algorithm comprehensively considers time and frequency factors while its hit rate is relatively high and its time and space complexity is low. User can specify a SSD volume as cache's storage and a HDD volume as a cached device. Software is implemented as a Windows\textregistered storage volume filter driver running in two modes: SSD as cache with write-hrough strategy and SSD as cache with write-back strategy. Mode differences are: the write-through strategy only cache read request, while write-back strategy cache both read and write request.
+\noindent Based on algorithms depending on data locality theory, the frequently accessed hot data on HDD will be gradually copied to SSD, while leaving cold data on HDD. The latency will be very low to access hot data again. LRU, LFU and a new improved cache page replacement algorithm are implemented to distinguish hot and cold data. This new improved algorithm comprehensively considers time and frequency factors while its hit rate is relatively high and its time and space complexity is low. User can specify a SSD volume as cache's storage and a HDD volume as a cached device. Software is implemented as a Windows\textregistered storage volume filter driver running in two modes: SSD as cache with write-hrough strategy and SSD as cache with write-back strategy. Mode differences are: the write-through strategy only cache read request, while write-back strategy cache both read and write request.
 \vspace{1em}
 
 \noindent To further improve performance optimization result, the cache system implements the support for big-cache-block: make the cache block size bigger than the aligned size of a request. Which reduces the query times for the big request and improves efficiency of data copies.
